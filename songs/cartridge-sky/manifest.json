@@ -1,0 +1,13 @@
+{
+  "title": "Cartridge Sky",
+  "recipe": "recipe.json",
+  "midi": "cartridge-sky.mid",
+  "credits": "CREDITS.txt",
+  "reference": {
+    "hash": "92f15991",
+    "frames": 480000,
+    "nonzero": 959726,
+    "rate": 48000,
+    "machine": "arm64 Darwin"
+  }
+}

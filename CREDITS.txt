@@ -1,0 +1,27 @@
+EchLub DAW browser demo: credits and licences
+
+EchLub is a digital audio workstation. This page runs its engine and app, compiled
+to WebAssembly, in your browser. Only the compiled result is published; the source is not.
+中文：這是 EchLub DAW 在瀏覽器裡的 demo。只公開編譯後的結果，原始碼不公開。
+
+The EchLub engine and app (the echlub-* crates)
+  (c) The EchLub authors. All rights reserved; shipped compiled only.
+  Four of them are also published as source under MIT OR Apache-2.0 at
+  https://github.com/qwertyboy0325/echlub-public : echlub-audiofile, echlub-dsp,
+  echlub-node, echlub-rt-thread. Everything else in the module is not licensed for reuse.
+
+Third-party software
+  The WebAssembly module and its JavaScript glue (wasm-bindgen) contain open-source Rust
+  libraries (egui, eframe, wgpu, winit, wasm-bindgen and others). Their names, versions,
+  licences and licence texts are in THIRD_PARTY_LICENSES.txt.
+
+Font
+  Noto Sans TC (fonts/NotoSansTC.ttf), SIL Open Font License 1.1; the licence is in
+  fonts/OFL.txt and in THIRD_PARTY_LICENSES.txt.
+
+Songs (each has its own credits file under songs/<name>/)
+  Unity: a non-commercial fan cover arrangement of TheFatRat's "Unity" (original:
+    https://youtu.be/n8X9_MgEdCg). Remake MIDI and project by Henrik Henkel.
+    No samples or audio from the original. See songs/unity/CREDITS.txt.
+  Cartridge Sky: an original piece made for this demo. See songs/cartridge-sky/CREDITS.txt.
+  Built-in trio: a short demo song made for this demo.

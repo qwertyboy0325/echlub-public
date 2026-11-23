@@ -1,0 +1,169 @@
+// The browser demo's shell: load the wasm app and the song, start the app
+// on the canvas, and keep the engine running. The engine lives in the
+// app's wasm instance on this (the main) thread; an AudioWorklet only plays
+// the blocks this loop renders and posts to it (no SharedArrayBuffer).
+// Before sound is started the loop runs the engine on the page's clock and
+// drops what it renders, so the transport still moves.
+import init, { WebHandle } from "./echlub_web_demo.js";
+
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const RATE = 48000;
+// The song: a folder under songs/ (manifest.json and the files it names),
+// `?song=<name>` or the first one songs/index.json lists.
+let SONG = "";
+// Frames rendered ahead of what the player has played: what the queue
+// rides out when the main thread stalls (an egui frame, a GC).
+const AHEAD = Math.round(Number(params.get("ahead") || 0.25) * RATE);
+// Frames of playing blocks the player hashes (the check against the native reference).
+const HASH_FRAMES = Math.round(Number(params.get("hash_s") || 10) * RATE);
+
+const report = {};
+const setReport = (k, v) => { report[k] = v; $("report").textContent = JSON.stringify(report); };
+function fail(msg) {
+  document.body.dataset.state = "error";
+  $("load-status").textContent = `Failed: ${msg}`;
+  setReport("error", String(msg));
+}
+let toastTimer = 0;
+function toast(text) {
+  const t = $("toast");
+  t.textContent = text;
+  t.dataset.show = "1";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.dataset.show = "0"; }, 4000);
+}
+
+const bytes = async (url, optional = false) => {
+  const r = await fetch(url);
+  if (!r.ok) { if (optional) return new Uint8Array(0); throw new Error(`${url}: HTTP ${r.status}`); }
+  return new Uint8Array(await r.arrayBuffer());
+};
+
+const pump = {
+  handle: null, block: 128, sent: 0, consumed: 0, mode: "clock", t0: 0,
+  ctx: null, node: null, player: { underruns: 0, missing: 0, queued: 0, hash: null, hashFrames: 0, nonzero: 0 },
+  rendered: 0, renderMs: 0, maxTickMs: 0,
+};
+
+function tick() {
+  const p = pump;
+  if (p.mode === "clock") p.consumed = Math.floor((performance.now() - p.t0) * RATE / 1000);
+  let behind = AHEAD - (p.sent - p.consumed);
+  // Far behind (a hidden tab, a long stall): skip, do not try to catch up.
+  if (behind > RATE) { p.sent = p.consumed + AHEAD - RATE / 4; behind = RATE / 4; }
+  const blocks = Math.ceil(behind / p.block);
+  if (blocks <= 0) return;
+  const t = performance.now();
+  const samples = p.handle.pump(blocks);
+  const flags = p.handle.pump_flags();
+  const ms = performance.now() - t;
+  p.renderMs += ms; p.maxTickMs = Math.max(p.maxTickMs, ms);
+  p.rendered += blocks * p.block;
+  p.sent += blocks * p.block;
+  if (p.mode === "audio") p.node.port.postMessage({ samples, flags, block: p.block }, [samples.buffer]);
+}
+
+function showAudio() {
+  const p = pump, q = p.player;
+  if (p.mode === "clock") return;
+  const speed = p.renderMs > 0 ? (p.rendered / RATE) / (p.renderMs / 1000) : 0;
+  const out = p.ctx.outputLatency ? `, output latency reported ${(p.ctx.outputLatency * 1000).toFixed(0)} ms` : "";
+  $("audio").textContent = `Sound on. Queue ${(q.queued / RATE * 1000).toFixed(0)} ms (target ${(AHEAD / RATE * 1000).toFixed(0)} ms), ` +
+    `underruns ${q.underruns}; engine ${speed.toFixed(1)}× real time${out} (measured on this machine)`;
+  const ref = pump.reference;
+  if (q.hashDone && ref) {
+    const same = q.hash === ref.hash && q.hashFrames === ref.frames;
+    setReport("hashCheck", { page: q.hash, native: ref.hash, frames: q.hashFrames, same });
+    $("audio").textContent += same ? `. First ${(q.hashFrames / RATE).toFixed(0)} s played: bit-identical to the native reference.`
+      : `. First ${(q.hashFrames / RATE).toFixed(0)} s played: differs from the native reference (${q.hash} vs ${ref.hash}).`;
+  }
+  setReport("audio", { ...q, sent: p.sent, consumed: p.consumed, speed, maxTickMs: p.maxTickMs, baseLatency: p.ctx.baseLatency, outputLatency: p.ctx.outputLatency, state: p.ctx.state });
+}
+
+async function startSound() {
+  const p = pump;
+  if (p.mode === "audio") {
+    await p.ctx.suspend();
+    p.node.disconnect();
+    p.mode = "clock"; p.t0 = performance.now() - p.consumed * 1000 / RATE;
+    $("sound").textContent = "Start sound"; $("sound").setAttribute("aria-pressed", "false");
+    $("audio").textContent = "Sound off: the engine runs on the page's clock, silently.";
+    return;
+  }
+  if (!p.ctx) {
+    p.ctx = new AudioContext({ sampleRate: RATE, latencyHint: "interactive" });
+    await p.ctx.audioWorklet.addModule("player.js");
+    p.node = new AudioWorkletNode(p.ctx, "echlub-player", { numberOfInputs: 0, outputChannelCount: [2], processorOptions: { hashFrames: HASH_FRAMES } });
+    p.node.port.onmessage = (e) => { Object.assign(p.player, e.data); p.consumed = e.data.consumed; };
+  }
+  p.node.port.postMessage({ reset: true });
+  p.node.connect(p.ctx.destination);
+  await p.ctx.resume();
+  // The queue starts empty: what the clock mode rendered was never heard.
+  p.sent = 0; p.consumed = 0; p.mode = "audio";
+  $("sound").textContent = "Stop sound"; $("sound").setAttribute("aria-pressed", "true");
+}
+
+async function main() {
+  await init({ module_or_path: "echlub_web_demo_bg.wasm" });
+  const index = await (await fetch("songs/index.json")).json();
+  const pick = (params.get("song") || index.songs[0]).replace(/[^A-Za-z0-9_-]/g, "");
+  if (!index.songs.includes(pick)) throw new Error(`no song "${pick}" (songs: ${index.songs.join(", ")})`);
+  SONG = `songs/${pick}`;
+  setReport("song", pick);
+  const manifest = await (await fetch(`${SONG}/manifest.json`)).text();
+  const m = JSON.parse(manifest);
+  pump.reference = m.reference || null;
+  $("load-title").textContent = m.title || "EchLub DAW";
+  $("song").textContent = m.title ? `Song: ${m.title}` : "";
+  if (m.credits) { $("credits").href = `${SONG}/${m.credits}`; $("credits").hidden = false; }
+  for (const n of index.songs) {
+    const o = document.createElement("option");
+    o.value = n; o.textContent = (index.titles && index.titles[n]) || n; o.selected = n === pick;
+    $("pick").appendChild(o);
+  }
+  $("pick").hidden = index.songs.length < 2;
+  $("pick").addEventListener("change", () => { params.set("song", $("pick").value); location.search = params.toString(); });
+  const names = WebHandle.song_files(manifest);
+  const files = await Promise.all(names.map((n) => bytes(`${SONG}/${n}`)));
+  const font = await bytes(params.get("font") || "fonts/NotoSansTC.ttf", true);
+  setReport("font", font.length);
+  const handle = new WebHandle();
+  pump.handle = handle; pump.block = handle.block();
+  window.echlubDemo = { handle, pump, report };
+  await handle.start($("app"), manifest, files, font);
+  document.body.dataset.state = "running";
+  pump.t0 = performance.now();
+  setInterval(tick, 10);
+  setInterval(showAudio, 250);
+  let asks = 0;
+  setInterval(() => {
+    const n = Number(handle.unavailable_asks());
+    if (n > asks) toast("Opening, saving and exporting files are not available in the browser demo.");
+    asks = n;
+    let dead = true;
+    try { dead = handle.has_panicked(); } catch (_) { /* the wasm instance aborted */ }
+    if (dead && !report.panicked) {
+      $("audio").textContent = "The app stopped after an internal error. Reload the page to start again.";
+      toast("The app stopped after an internal error. Reload the page to start again.");
+    }
+    setReport("panicked", dead);
+    setReport("fileAsks", n);
+  }, 300);
+  $("sound").addEventListener("click", () => startSound().catch((e) => toast(`Sound could not start: ${e.message}`)));
+  // A browser plays sound only after a click on the page: ask once, up
+  // front, instead of leaving it to the small button in the bar
+  // (`?gate=0` skips it, for the headless checks).
+  const gate = $("gate");
+  const closeGate = () => { gate.hidden = true; };
+  $("gate-on").addEventListener("click", () => {
+    closeGate();
+    if (pump.mode !== "audio") startSound().catch((e) => toast(`Sound could not start: ${e.message}`));
+  });
+  $("gate-off").addEventListener("click", () => { closeGate(); toast("Sound is off. Start it any time with the button at the bottom left."); });
+  gate.addEventListener("keydown", (e) => { if (e.key === "Escape") $("gate-off").click(); });
+  if (params.get("gate") !== "0") { gate.hidden = false; $("gate-on").focus(); }
+}
+
+main().catch((e) => fail(e && e.message ? e.message : e));

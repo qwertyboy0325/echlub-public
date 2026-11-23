@@ -1,0 +1,13 @@
+Cartridge Sky (卡帶天空) — v1, 2026-11-23
+
+Composition, arrangement and sound design: an original piece written for the EchLub DAW demo
+(melody, harmony and drum patterns composed fresh in source/compose.py).
+All sounds were made with EchLub's built-in Synth, Drum Synth and built-in effects.
+No third-party samples, no plugins, no audio clips were used.
+
+Production reference (analysis only, nothing copied, sampled or shipped):
+TheFatRat, "Unity" — used to measure tempo, section lengths, loudness curve, spectral balance and stereo width.
+The KSHMR / Cymatics drum samples in ../source were measured (envelope, spectrum) to set Drum Synth parameters;
+none of their audio is in this project.
+The "Unity" remake project and MIDI by Henrik Henkel were read for tempo and structure only; none of its notes
+are used in this piece.

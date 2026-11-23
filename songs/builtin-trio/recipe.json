@@ -1,0 +1,12 @@
+{
+  "midi": "song.mid",
+  "tracks": [
+    {"name": "Bass", "from": ["Bass"], "preset": "Bass", "gain_db": -3,
+     "inserts": [{"effect": "compressor", "params": {"threshold": -18}}]},
+    {"name": "Keys", "from": ["Keys"], "preset": "Pad", "sends": [{"to": "Room", "level_db": -10}]},
+    {"name": "Drums", "from": ["Drums (ch 10, all)"], "instrument": "drumsynth", "preset": "pop-rock"}
+  ],
+  "returns": [{"name": "Room", "inserts": [{"effect": "reverb", "params": {"mix": 1}}]}],
+  "master": [{"effect": "limiter"}],
+  "output": {"tail_s": 1.0}
+}

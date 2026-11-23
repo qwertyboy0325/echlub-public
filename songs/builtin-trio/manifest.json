@@ -1,0 +1,13 @@
+{
+  "title": "Built-in trio",
+  "description": "Nine seconds or so: a bass line, four bars of chords and a drum pattern, made only of EchLub's built-in synth and Drum Synth. No samples, nothing recorded.",
+  "recipe": "recipe.json",
+  "midi": "song.mid",
+  "reference": {
+    "hash": "55d203fd",
+    "frames": 480000,
+    "nonzero": 959806,
+    "rate": 48000,
+    "machine": "arm64 Darwin"
+  }
+}

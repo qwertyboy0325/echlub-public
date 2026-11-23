@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EchLub DAW Demo</title>
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --bg: #1c1c1e; --panel: #2a2a2d; --ink: #ececee; --muted: #a0a0a8; --line: #3a3a3f;
+    --accent: #6c9bff; --accent-ink: #0b1020; --bad: #ff8a80; --ok: #5fd28a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--ink);
+    font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  #app { position: absolute; inset: 0 0 32px 0; width: 100%; height: calc(100% - 32px); display: block; background: var(--bg); }
+  #shell { position: absolute; left: 0; right: 0; bottom: 0; height: 32px; display: flex; align-items: center; gap: 12px;
+    padding: 0 12px; background: var(--panel); border-top: 1px solid var(--line); white-space: nowrap; overflow: hidden; }
+  #shell .muted { color: var(--muted); }
+  #shell button { font: inherit; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--accent);
+    color: var(--accent-ink); cursor: pointer; }
+  #shell button[aria-pressed="true"] { background: transparent; color: var(--ink); }
+  #shell a { color: var(--accent); }
+  #shell select { font: inherit; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 1px 4px; }
+  #shell .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  #loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
+  body:not([data-state="loading"]) #loading { display: none; }
+  body[data-state="error"] #loading { display: flex; color: var(--bad); }
+  #toast { position: absolute; left: 50%; bottom: 48px; transform: translateX(-50%); max-width: calc(100% - 32px);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; opacity: 0;
+    transition: opacity .2s; pointer-events: none; }
+  #toast[data-show="1"] { opacity: 1; }
+  #gate { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(0 0 0 / .55); z-index: 5; }
+  #gate[hidden] { display: none; }
+  #gate .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px; display: flex;
+    flex-direction: column; gap: 10px; align-items: center; text-align: center; max-width: min(360px, calc(100% - 32px)); }
+  #gate strong { font-size: 17px; }
+  #gate .muted { color: var(--muted); }
+  #gate button { font: inherit; font-size: 15px; border-radius: 8px; cursor: pointer; padding: 8px 18px; border: 1px solid var(--line); }
+  #gate-on { background: var(--accent); color: var(--accent-ink); min-width: 200px; }
+  #gate-off { background: transparent; color: var(--muted); }
+</style>
+</head>
+<body data-state="loading">
+<canvas id="app"></canvas>
+<div id="loading"><strong id="load-title">EchLub DAW</strong><span id="load-status">Loading…</span></div>
+<div id="shell" role="status">
+  <button id="sound" type="button" aria-pressed="false">Start sound</button>
+  <span id="audio" class="muted">Sound off: the engine runs on the page's clock, silently.</span>
+  <select id="pick" aria-label="Song"></select>
+  <span class="grow muted"><span id="song"></span> <a id="credits" href="#" target="_blank" rel="noopener" hidden>Credits</a> <a id="licences" href="CREDITS.txt" target="_blank" rel="noopener">Licences</a></span>
+  <span class="muted">Browser demo: no files, plugins, recording or devices.</span>
+</div>
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
+  <div class="card">
+    <strong id="gate-title">Turn on sound?</strong>
+    <span class="muted">開啟聲音？瀏覽器要你點一下，網頁才能發出聲音。</span>
+    <button id="gate-on" type="button">Start sound · 開啟聲音</button>
+    <button id="gate-off" type="button">Stay silent · 先不要</button>
+  </div>
+</div>
+<div id="toast" role="alert"></div>
+<pre id="report" hidden></pre>
+<script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "title": "Unity",
+  "recipe": "unity-recipe.json",
+  "midi": "unity.mid",
+  "credits": "CREDITS.txt",
+  "reference": {
+    "hash": "4294c400",
+    "frames": 480000,
+    "nonzero": 959726,
+    "rate": 48000,
+    "machine": "arm64 Darwin"
+  }
+}
