@@ -1,4 +1,4 @@
-Unity (cover arrangement) - v2, 2026-11-23
+Unity (cover arrangement) - v5, 2026-11-23
 
 Music: TheFatRat - Unity
   Original: https://youtu.be/n8X9_MgEdCg  (on TheFatRat's official YouTube channel; official site thefatrat.com)
@@ -11,12 +11,14 @@ commercial use without his written permission; this page follows that. The terms
 arrangement uses none of them. All rights in the composition remain with their owners.
 
 Remake MIDI and project: Henrik Henkel (his FL Studio remake project "unity.flp" and the MIDI parts, shared publicly by him).
-  All notes in this arrangement come from his MIDI files and from the pattern data of his FL Studio project.
-Arrangement, sound design and mix: made in the EchLub DAW with its built-in Synth, Drum Synth and built-in effects only
-  (song form beyond the remake project's 36 bars, instrument choices, drum sounds, mix).
+  All notes in this arrangement come from his MIDI files and from the pattern data of his FL Studio project, except the
+  "Zap" FX part (falling synth zaps at bars 32, 48 and 64), which was modelled on measurements of the original's sound
+  (pitch, repeat rate, level, width); no audio from the original was used.
+Arrangement, sound design, mix and mastering: made in the EchLub DAW with its built-in Synth, Drum Synth and built-in
+  effects only, rendered live by the engine (no offline processing).
 No third-party samples, no plugins, no audio clips. The KSHMR / Cymatics drum samples and the vocal-bed sample used in the remake
-project were NOT used; Drum Synth sounds were designed after measuring them. The original recording was used only as a measurement
-reference (loudness, spectrum, width) and is not part of this arrangement.
+project were NOT used; Drum Synth sounds were designed after measuring them. The original recording and its stems were used
+only as a measurement reference (loudness, spectrum, width, section levels) and are not part of this arrangement.
 
 中文：這是 TheFatRat〈Unity〉的非商業粉絲翻編版本，在 EchLub 裡製作。音符來自 Henrik Henkel 的重製 MIDI 與專案，
 不含原曲的任何取樣或音訊；與 TheFatRat 無關，也未經其背書。

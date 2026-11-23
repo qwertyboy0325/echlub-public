@@ -12,25 +12,25 @@
    ],
    "preset": "Lead",
    "color": "#7fd17f",
-   "gain_db": -9.0,
+   "gain_db": -10.3,
    "params": {
     "osc1.wave": "pulse",
-    "osc1.level": 0.7,
+    "osc1.level": 0.6,
     "osc1.octave": 0,
     "osc1.semi": 0,
     "osc1.fine": 0.0,
-    "osc1.pw": 0.25,
+    "osc1.pw": 0.5,
     "osc1.unison": 1,
     "osc1.detune": 0.0,
     "osc1.spread": 0.0,
     "osc1.reset": true,
     "osc1.sync": false,
-    "osc2.wave": "pulse",
-    "osc2.level": 0.0,
+    "osc2.wave": "saw",
+    "osc2.level": 0.3,
     "osc2.octave": 0,
     "osc2.semi": 0,
     "osc2.fine": 0.0,
-    "osc2.pw": 0.125,
+    "osc2.pw": 0.5,
     "osc2.unison": 1,
     "osc2.detune": 0.0,
     "osc2.spread": 0.0,
@@ -47,7 +47,7 @@
     "osc3.spread": 0.0,
     "osc3.reset": true,
     "osc3.sync": false,
-    "noise.level": 0.0,
+    "noise.level": 0.06,
     "filter.mode": "bypass",
     "filter.cutoff": 9000,
     "filter.res": 0.0,
@@ -62,7 +62,7 @@
     "amp.attack": 0.001,
     "amp.decay": 0.12,
     "amp.sustain": 0.85,
-    "amp.release": 0.04,
+    "amp.release": 0.015,
     "amp.velocity": 0.3,
     "menv.attack": 0.25,
     "menv.decay": 0.1,
@@ -77,10 +77,10 @@
     "lfo2.rate": 0.3,
     "lfo2.sync": false,
     "lfo2.retrig": false,
-    "mod1.source": "lfo1",
-    "mod1.via": "mod_env",
-    "mod1.dest": "pitch",
-    "mod1.amount": 0.005,
+    "mod1.source": "none",
+    "mod1.via": "none",
+    "mod1.dest": "none",
+    "mod1.amount": 0.0,
     "mod2.source": "none",
     "mod2.via": "none",
     "mod2.dest": "none",
@@ -125,26 +125,21 @@
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 12,
-      "b5.on": 1,
-      "b5.type": 0,
-      "b5.freq": 2600,
-      "b5.gain": 0.0,
-      "b5.q": 0.9,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 10500,
+      "b4.gain": -3.5,
+      "b4.q": 1.0,
       "b7.on": 1,
       "b7.type": 2,
       "b7.freq": 6000,
-      "b7.gain": -0.5,
+      "b7.gain": 0.0,
       "b7.q": 0.71,
-      "b8.on": 1,
-      "b8.type": 4,
-      "b8.freq": 12000,
-      "b8.gain": 0,
-      "b8.q": 0.71,
-      "b8.slope": 12,
       "b2.on": 0,
       "b3.on": 0,
-      "b4.on": 0,
-      "b6.on": 0
+      "b5.on": 0,
+      "b6.on": 0,
+      "b8.on": 0
      }
     },
     {
@@ -160,16 +155,7 @@
      }
     }
    ],
-   "sends": [
-    {
-     "to": "Plate",
-     "level_db": -22
-    },
-    {
-     "to": "Delay",
-     "level_db": -24
-    }
-   ]
+   "sends": []
   },
   {
    "name": "Chip Chords",
@@ -178,11 +164,11 @@
    ],
    "preset": "Pluck",
    "color": "#5fb85f",
-   "gain_db": -16.0,
+   "gain_db": -15.0,
    "params": {
     "osc1.wave": "pulse",
-    "osc1.level": 0.7,
-    "osc1.octave": 0,
+    "osc1.level": 0.6,
+    "osc1.octave": 1,
     "osc1.semi": 0,
     "osc1.fine": 0.0,
     "osc1.pw": 0.5,
@@ -191,9 +177,9 @@
     "osc1.spread": 0.0,
     "osc1.reset": true,
     "osc1.sync": false,
-    "osc2.wave": "pulse",
-    "osc2.level": 0.0,
-    "osc2.octave": 0,
+    "osc2.wave": "saw",
+    "osc2.level": 0.3,
+    "osc2.octave": 1,
     "osc2.semi": 0,
     "osc2.fine": 0.0,
     "osc2.pw": 0.5,
@@ -202,8 +188,8 @@
     "osc2.spread": 0.0,
     "osc2.reset": true,
     "osc2.sync": false,
-    "osc3.wave": "sine",
-    "osc3.level": 0.0,
+    "osc3.wave": "pulse",
+    "osc3.level": 0.12,
     "osc3.octave": 0,
     "osc3.semi": 0,
     "osc3.fine": 0.0,
@@ -215,10 +201,10 @@
     "osc3.sync": false,
     "noise.level": 0.0,
     "filter.mode": "lp12",
-    "filter.cutoff": 7000,
-    "filter.res": 0.05,
+    "filter.cutoff": 20000,
+    "filter.res": 0.0,
     "filter.drive": 0.0,
-    "filter.key": 0.3,
+    "filter.key": 0.0,
     "filter.env": 0.0,
     "fenv.attack": 0.001,
     "fenv.decay": 0.1,
@@ -273,25 +259,37 @@
       "output": 0.0,
       "b1.on": 1,
       "b1.type": 3,
-      "b1.freq": 300,
+      "b1.freq": 30,
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 12,
-      "b3.on": 1,
-      "b3.type": 0,
-      "b3.freq": 600,
-      "b3.gain": 3.0,
-      "b3.q": 1.0,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 640,
+      "b4.gain": -5.0,
+      "b4.q": 2.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 3200,
+      "b5.gain": 5.0,
+      "b5.q": 2.0,
+      "b6.on": 1,
+      "b6.type": 0,
+      "b6.freq": 2000,
+      "b6.gain": -2.0,
+      "b6.q": 0.8,
       "b7.on": 1,
       "b7.type": 2,
-      "b7.freq": 7000,
-      "b7.gain": -1.0,
+      "b7.freq": 5000,
+      "b7.gain": -2.5,
       "b7.q": 0.71,
+      "b8.on": 1,
+      "b8.type": 2,
+      "b8.freq": 13000,
+      "b8.gain": 5.0,
+      "b8.q": 0.71,
       "b2.on": 0,
-      "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
-      "b8.on": 0
+      "b3.on": 0
      }
     }
    ],
@@ -301,25 +299,13 @@
       {
        "bar": 4,
        "beat": 0,
-       "value": 2500,
-       "shape": "linear"
-      },
-      {
-       "bar": 8,
-       "beat": 0,
-       "value": 9000,
-       "shape": "linear"
-      },
-      {
-       "bar": 12,
-       "beat": 0,
-       "value": 12000,
+       "value": 20000,
        "shape": "hold"
       },
       {
        "bar": 68,
        "beat": 0,
-       "value": 12000,
+       "value": 20000,
        "shape": "linear"
       },
       {
@@ -334,15 +320,15 @@
   },
   {
    "name": "Chip Bass",
+   "preset": "Bass",
    "from": [
     "Chip Bass"
    ],
-   "preset": "Bass",
    "color": "#3f9a3f",
-   "gain_db": -9.0,
+   "gain_db": -15.5,
    "params": {
-    "osc1.wave": "triangle",
-    "osc1.level": 0.9,
+    "osc1.wave": "pulse",
+    "osc1.level": 0.6,
     "osc1.octave": 0,
     "osc1.semi": 0,
     "osc1.fine": 0.0,
@@ -352,8 +338,8 @@
     "osc1.spread": 0.0,
     "osc1.reset": true,
     "osc1.sync": false,
-    "osc2.wave": "pulse",
-    "osc2.level": 0.12,
+    "osc2.wave": "saw",
+    "osc2.level": 0.3,
     "osc2.octave": 0,
     "osc2.semi": 0,
     "osc2.fine": 0.0,
@@ -363,7 +349,7 @@
     "osc2.spread": 0.0,
     "osc2.reset": true,
     "osc2.sync": false,
-    "osc3.wave": "sine",
+    "osc3.wave": "triangle",
     "osc3.level": 0.0,
     "osc3.octave": 0,
     "osc3.semi": 0,
@@ -391,7 +377,231 @@
     "amp.decay": 0.2,
     "amp.sustain": 0.9,
     "amp.release": 0.02,
-    "amp.velocity": 0.2,
+    "amp.velocity": 1.0,
+    "mod1.source": "not_highest",
+    "mod1.via": "none",
+    "mod1.dest": "amp",
+    "mod1.amount": -0.15,
+    "mod2.source": "key_track",
+    "mod2.via": "none",
+    "mod2.dest": "amp",
+    "mod2.amount": 0.99,
+    "mod3.source": "none",
+    "mod3.via": "none",
+    "mod3.dest": "none",
+    "mod3.amount": 0.0,
+    "mod4.source": "none",
+    "mod4.via": "none",
+    "mod4.dest": "none",
+    "mod4.amount": 0.0,
+    "mod5.source": "none",
+    "mod5.via": "none",
+    "mod5.dest": "none",
+    "mod5.amount": 0.0,
+    "mod6.source": "none",
+    "mod6.via": "none",
+    "mod6.dest": "none",
+    "mod6.amount": 0.0,
+    "mod7.source": "none",
+    "mod7.via": "none",
+    "mod7.dest": "none",
+    "mod7.amount": 0.0,
+    "mod8.source": "none",
+    "mod8.via": "none",
+    "mod8.dest": "none",
+    "mod8.amount": 0.0,
+    "key.center": 35,
+    "key.span": 1,
+    "global.mode": "poly",
+    "global.poly": 4,
+    "global.level": 0.7
+   },
+   "inserts": [
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 3,
+      "b1.freq": 58,
+      "b1.gain": 0,
+      "b1.q": 0.71,
+      "b1.slope": 24,
+      "b3.on": 1,
+      "b3.type": 0,
+      "b3.freq": 70,
+      "b3.gain": 4.0,
+      "b3.q": 1.4,
+      "b2.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b7.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -18,
+      "ratio": 3,
+      "attack": 5,
+      "release": 80,
+      "makeup": 1,
+      "knee": 6.0,
+      "mix": 1.0
+     }
+    }
+   ]
+  },
+  {
+   "name": "Chip Drums",
+   "from": [
+    "Chip Drums"
+   ],
+   "instrument": "drumsynth",
+   "preset": "tight-electronic",
+   "color": "#2f7f2f",
+   "gain_db": 1.5,
+   "params": {
+    "kick.pitch_start": 700,
+    "kick.pitch_end": 70,
+    "kick.sweep": 20,
+    "kick.decay": 110,
+    "kick.click": 0.0,
+    "kick.drive": 0.8,
+    "kick.pan": 0,
+    "snare.body_level": 0.15,
+    "snare.noise_type": "lowpass",
+    "snare.noise_cutoff": 7000,
+    "snare.noise_decay": 110,
+    "snare.noise_level": 0.9,
+    "snare.decay": 120,
+    "snare.pan": 0,
+    "hat_closed.metal": 0.0,
+    "hat_closed.noise": 1.0,
+    "hat_closed.tone": 10000,
+    "hat_closed.highpass": 6000,
+    "hat_closed.decay": 35,
+    "hat_closed.pan": 0,
+    "hat_closed.level": 5,
+    "snare.stereo_spread": 0.07,
+    "hat_closed.stereo_spread": 0.07
+   },
+   "inserts": [
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 3,
+      "b1.freq": 40,
+      "b1.gain": 0,
+      "b1.q": 0.71,
+      "b1.slope": 12,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 3200,
+      "b5.gain": 6.0,
+      "b5.q": 0.5,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 8000,
+      "b7.gain": -16.0,
+      "b7.q": 0.71,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b6.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -16,
+      "ratio": 3,
+      "attack": 3,
+      "release": 60,
+      "makeup": 1,
+      "knee": 6.0,
+      "mix": 1.0
+     }
+    }
+   ]
+  },
+  {
+   "name": "Lead",
+   "from": [
+    "Lead"
+   ],
+   "preset": "Lead",
+   "color": "#f0b44c",
+   "gain_db": -12.7,
+   "params": {
+    "osc1.wave": "pulse",
+    "osc1.level": 0.6,
+    "osc1.octave": 0,
+    "osc1.semi": 0,
+    "osc1.fine": 0.0,
+    "osc1.pw": 0.5,
+    "osc1.unison": 1,
+    "osc1.detune": 0.0,
+    "osc1.spread": 0.0,
+    "osc1.reset": false,
+    "osc1.sync": false,
+    "osc2.wave": "sine",
+    "osc2.level": 0.09,
+    "osc2.octave": 1,
+    "osc2.semi": 0,
+    "osc2.fine": 0.0,
+    "osc2.pw": 0.5,
+    "osc2.unison": 1,
+    "osc2.detune": 0.0,
+    "osc2.spread": 0.0,
+    "osc2.reset": false,
+    "osc2.sync": false,
+    "osc3.wave": "saw",
+    "osc3.level": 0.22,
+    "osc3.octave": 0,
+    "osc3.semi": 0,
+    "osc3.fine": 0.0,
+    "osc3.pw": 0.5,
+    "osc3.unison": 1,
+    "osc3.detune": 0.0,
+    "osc3.spread": 0.0,
+    "osc3.reset": false,
+    "osc3.sync": false,
+    "noise.level": 0.25,
+    "filter.mode": "bypass",
+    "filter.cutoff": 16000,
+    "filter.res": 0.0,
+    "filter.drive": 0.0,
+    "filter.key": 0.0,
+    "filter.env": 0.0,
+    "fenv.attack": 0.002,
+    "fenv.decay": 0.3,
+    "fenv.sustain": 0.6,
+    "fenv.release": 0.2,
+    "fenv.velocity": 0.2,
+    "amp.attack": 0.003,
+    "amp.decay": 0.1,
+    "amp.sustain": 0.3,
+    "amp.release": 0.03,
+    "amp.velocity": 0.3,
+    "menv.attack": 0.3,
+    "menv.decay": 0.1,
+    "menv.sustain": 1.0,
+    "menv.release": 0.1,
+    "menv.velocity": 0.0,
+    "lfo1.shape": "sine",
+    "lfo1.rate": 5.5,
+    "lfo1.retrig": true,
+    "lfo1.sync": false,
+    "lfo2.shape": "sine",
+    "lfo2.rate": 0.3,
+    "lfo2.sync": false,
+    "lfo2.retrig": false,
     "mod1.source": "none",
     "mod1.via": "none",
     "mod1.dest": "none",
@@ -424,228 +634,8 @@
     "mod8.via": "none",
     "mod8.dest": "none",
     "mod8.amount": 0.0,
-    "global.mode": "poly",
-    "global.poly": 4,
-    "global.level": 0.7
-   },
-   "inserts": [
-    {
-     "effect": "eq",
-     "params": {
-      "output": 0.0,
-      "b1.on": 1,
-      "b1.type": 3,
-      "b1.freq": 38,
-      "b1.gain": 0,
-      "b1.q": 0.71,
-      "b1.slope": 24,
-      "b2.on": 1,
-      "b2.type": 0,
-      "b2.freq": 110,
-      "b2.gain": 0.0,
-      "b2.q": 0.9,
-      "b3.on": 1,
-      "b3.type": 0,
-      "b3.freq": 450,
-      "b3.gain": 3.5,
-      "b3.q": 1.0,
-      "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
-      "b7.on": 0,
-      "b8.on": 0
-     }
-    },
-    {
-     "effect": "compressor",
-     "params": {
-      "threshold": -18,
-      "ratio": 3,
-      "attack": 5,
-      "release": 80,
-      "makeup": 1,
-      "knee": 6.0,
-      "mix": 1.0
-     }
-    }
-   ]
-  },
-  {
-   "name": "Chip Drums",
-   "from": [
-    "Chip Drums"
-   ],
-   "instrument": "drumsynth",
-   "preset": "tight-electronic",
-   "color": "#2f7f2f",
-   "gain_db": -6.0,
-   "params": {
-    "kick.pitch_start": 700,
-    "kick.pitch_end": 70,
-    "kick.sweep": 20,
-    "kick.decay": 110,
-    "kick.click": 0.0,
-    "kick.drive": 0.8,
-    "kick.pan": 0,
-    "snare.body_level": 0.15,
-    "snare.noise_type": "lowpass",
-    "snare.noise_cutoff": 7000,
-    "snare.noise_decay": 110,
-    "snare.noise_level": 0.9,
-    "snare.decay": 120,
-    "snare.pan": 0,
-    "hat_closed.metal": 0.0,
-    "hat_closed.noise": 1.0,
-    "hat_closed.tone": 10000,
-    "hat_closed.highpass": 6000,
-    "hat_closed.decay": 35,
-    "hat_closed.pan": 0,
-    "hat_closed.level": 5
-   },
-   "inserts": [
-    {
-     "effect": "eq",
-     "params": {
-      "output": 0.0,
-      "b1.on": 1,
-      "b1.type": 3,
-      "b1.freq": 40,
-      "b1.gain": 0,
-      "b1.q": 0.71,
-      "b1.slope": 12,
-      "b7.on": 1,
-      "b7.type": 2,
-      "b7.freq": 8000,
-      "b7.gain": 3.0,
-      "b7.q": 0.71,
-      "b2.on": 0,
-      "b3.on": 0,
-      "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
-      "b8.on": 0
-     }
-    },
-    {
-     "effect": "compressor",
-     "params": {
-      "threshold": -16,
-      "ratio": 3,
-      "attack": 3,
-      "release": 60,
-      "makeup": 1,
-      "knee": 6.0,
-      "mix": 1.0
-     }
-    }
-   ]
-  },
-  {
-   "name": "Lead",
-   "from": [
-    "Lead"
-   ],
-   "preset": "Lead",
-   "color": "#f0b44c",
-   "gain_db": -8.0,
-   "params": {
-    "osc1.wave": "saw",
-    "osc1.level": 0.6,
-    "osc1.octave": 0,
-    "osc1.semi": 0,
-    "osc1.fine": 0.0,
-    "osc1.pw": 0.5,
-    "osc1.unison": 7,
-    "osc1.detune": 24,
-    "osc1.spread": 0.85,
-    "osc1.reset": false,
-    "osc1.sync": false,
-    "osc2.wave": "saw",
-    "osc2.level": 0.28,
-    "osc2.octave": 1,
-    "osc2.semi": 0,
-    "osc2.fine": 0.0,
-    "osc2.pw": 0.5,
-    "osc2.unison": 5,
-    "osc2.detune": 16,
-    "osc2.spread": 0.7,
-    "osc2.reset": false,
-    "osc2.sync": false,
-    "osc3.wave": "pulse",
-    "osc3.level": 0.3,
-    "osc3.octave": 0,
-    "osc3.semi": 0,
-    "osc3.fine": 0.0,
-    "osc3.pw": 0.5,
-    "osc3.unison": 1,
-    "osc3.detune": 0.0,
-    "osc3.spread": 0.0,
-    "osc3.reset": true,
-    "osc3.sync": false,
-    "noise.level": 0.02,
-    "filter.mode": "lp12",
-    "filter.cutoff": 11000,
-    "filter.res": 0.12,
-    "filter.drive": 0.1,
-    "filter.key": 0.4,
-    "filter.env": 0.6,
-    "fenv.attack": 0.002,
-    "fenv.decay": 0.3,
-    "fenv.sustain": 0.6,
-    "fenv.release": 0.2,
-    "fenv.velocity": 0.2,
-    "amp.attack": 0.003,
-    "amp.decay": 0.3,
-    "amp.sustain": 0.85,
-    "amp.release": 0.16,
-    "amp.velocity": 0.3,
-    "menv.attack": 0.3,
-    "menv.decay": 0.1,
-    "menv.sustain": 1.0,
-    "menv.release": 0.1,
-    "menv.velocity": 0.0,
-    "lfo1.shape": "sine",
-    "lfo1.rate": 5.5,
-    "lfo1.retrig": true,
-    "lfo1.sync": false,
-    "lfo2.shape": "sine",
-    "lfo2.rate": 0.3,
-    "lfo2.sync": false,
-    "lfo2.retrig": false,
-    "mod1.source": "lfo1",
-    "mod1.via": "mod_env",
-    "mod1.dest": "pitch",
-    "mod1.amount": 0.004,
-    "mod2.source": "random",
-    "mod2.via": "none",
-    "mod2.dest": "pitch",
-    "mod2.amount": 0.001,
-    "mod3.source": "none",
-    "mod3.via": "none",
-    "mod3.dest": "none",
-    "mod3.amount": 0.0,
-    "mod4.source": "none",
-    "mod4.via": "none",
-    "mod4.dest": "none",
-    "mod4.amount": 0.0,
-    "mod5.source": "none",
-    "mod5.via": "none",
-    "mod5.dest": "none",
-    "mod5.amount": 0.0,
-    "mod6.source": "none",
-    "mod6.via": "none",
-    "mod6.dest": "none",
-    "mod6.amount": 0.0,
-    "mod7.source": "none",
-    "mod7.via": "none",
-    "mod7.dest": "none",
-    "mod7.amount": 0.0,
-    "mod8.source": "none",
-    "mod8.via": "none",
-    "mod8.dest": "none",
-    "mod8.amount": 0.0,
     "global.mode": "legato",
-    "global.glide": 0.018,
+    "global.glide": 0.0,
     "global.poly": 1,
     "global.level": 0.55
    },
@@ -662,18 +652,18 @@
       "b1.slope": 24,
       "b3.on": 1,
       "b3.type": 0,
-      "b3.freq": 450,
-      "b3.gain": -3.0,
-      "b3.q": 1.0,
+      "b3.freq": 700,
+      "b3.gain": 2.5,
+      "b3.q": 0.8,
       "b5.on": 1,
       "b5.type": 0,
-      "b5.freq": 3000,
-      "b5.gain": 3.0,
-      "b5.q": 0.8,
+      "b5.freq": 4500,
+      "b5.gain": 3.5,
+      "b5.q": 0.7,
       "b7.on": 1,
       "b7.type": 2,
-      "b7.freq": 8000,
-      "b7.gain": 3.5,
+      "b7.freq": 12000,
+      "b7.gain": 2.0,
       "b7.q": 0.71,
       "b2.on": 0,
       "b4.on": 0,
@@ -685,55 +675,23 @@
      "effect": "compressor",
      "params": {
       "threshold": -18,
-      "ratio": 3,
+      "ratio": 2,
       "attack": 8,
       "release": 100,
       "makeup": 1.5,
       "knee": 6.0,
       "mix": 1.0
      }
-    },
-    {
-     "effect": "ducker",
-     "params": {
-      "trigger": 1,
-      "threshold": -30,
-      "depth": -4,
-      "attack": 1.5,
-      "hold": 8,
-      "release": 120,
-      "shape": 1.4,
-      "mix": 1.0
-     },
-     "key": {
-      "from": "Kick"
-     }
-    },
-    {
-     "effect": "chorus",
-     "params": {
-      "rate": 0.4,
-      "depth": 0.25,
-      "delay": 12,
-      "mix": 0.3,
-      "spread": 150,
-      "voices": 2,
-      "feedback": 0.0
-     }
     }
    ],
    "sends": [
     {
      "to": "Delay",
-     "level_db": -11
+     "level_db": -6.0
     },
     {
-     "to": "Hall",
-     "level_db": -13
-    },
-    {
-     "to": "Plate",
-     "level_db": -18
+     "to": "Lead Hall",
+     "level_db": 2.0
     }
    ],
    "automation": {
@@ -783,37 +741,37 @@
      {
       "bar": 0,
       "beat": 0,
-      "value": -8.0,
+      "value": -12.7,
       "shape": "hold"
      },
      {
       "bar": 43,
       "beat": 0,
-      "value": -11.0,
+      "value": -15.7,
       "shape": "hold"
      },
      {
       "bar": 44,
       "beat": 0,
-      "value": -11.0,
+      "value": -15.7,
       "shape": "linear"
      },
      {
       "bar": 51,
       "beat": 3,
-      "value": -8.5,
+      "value": -13.2,
       "shape": "linear"
      },
      {
       "bar": 52,
       "beat": 0,
-      "value": -8.0,
+      "value": -12.7,
       "shape": "hold"
      },
      {
       "bar": 67,
       "beat": 0,
-      "value": -8.0,
+      "value": -12.7,
       "shape": "linear"
      }
     ]
@@ -826,7 +784,8 @@
    ],
    "preset": "Lead",
    "color": "#d89a3a",
-   "gain_db": -14.0,
+   "gain_db": -32.0,
+   "mute": true,
    "params": {
     "osc1.wave": "saw",
     "osc1.level": 0.6,
@@ -975,7 +934,7 @@
    ],
    "preset": "Pad",
    "color": "#e57fb0",
-   "gain_db": -12.5,
+   "gain_db": -11.5,
    "params": {
     "osc1.wave": "saw",
     "osc1.level": 0.6,
@@ -1012,7 +971,7 @@
     "osc3.sync": false,
     "noise.level": 0.0,
     "filter.mode": "lp12",
-    "filter.cutoff": 4200,
+    "filter.cutoff": 7000,
     "filter.res": 0.15,
     "filter.drive": 0.1,
     "filter.key": 0.3,
@@ -1023,14 +982,14 @@
     "fenv.release": 0.12,
     "fenv.velocity": 0.3,
     "amp.attack": 0.002,
-    "amp.decay": 0.35,
-    "amp.sustain": 0.75,
-    "amp.release": 0.1,
+    "amp.decay": 0.3,
+    "amp.sustain": 0.6,
+    "amp.release": 0.07,
     "amp.velocity": 0.25,
-    "mod1.source": "random",
+    "mod1.source": "none",
     "mod1.via": "none",
-    "mod1.dest": "pitch",
-    "mod1.amount": 0.001,
+    "mod1.dest": "none",
+    "mod1.amount": 0.0,
     "mod2.source": "none",
     "mod2.via": "none",
     "mod2.dest": "none",
@@ -1070,28 +1029,24 @@
       "output": 0.0,
       "b1.on": 1,
       "b1.type": 3,
-      "b1.freq": 260,
+      "b1.freq": 200,
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 24,
       "b3.on": 1,
       "b3.type": 0,
       "b3.freq": 500,
-      "b3.gain": -4.0,
+      "b3.gain": -1.0,
       "b3.q": 0.9,
-      "b6.on": 1,
-      "b6.type": 0,
-      "b6.freq": 3200,
-      "b6.gain": 2.5,
-      "b6.q": 0.9,
       "b7.on": 1,
       "b7.type": 2,
-      "b7.freq": 7000,
-      "b7.gain": 2.5,
+      "b7.freq": 11000,
+      "b7.gain": 6.0,
       "b7.q": 0.71,
       "b2.on": 0,
       "b4.on": 0,
       "b5.on": 0,
+      "b6.on": 0,
       "b8.on": 0
      }
     },
@@ -1100,7 +1055,7 @@
      "params": {
       "trigger": 1,
       "threshold": -30,
-      "depth": -13,
+      "depth": -2.0,
       "attack": 1.5,
       "hold": 8,
       "release": 170,
@@ -1121,6 +1076,12 @@
       "spread": 170,
       "voices": 2,
       "feedback": 0.0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.0
      }
     }
    ],
@@ -1166,16 +1127,16 @@
     "osc2.spread": 0.8,
     "osc2.reset": false,
     "osc2.sync": false,
-    "osc3.wave": "triangle",
-    "osc3.level": 0.3,
-    "osc3.octave": -1,
+    "osc3.wave": "saw",
+    "osc3.level": 0.12,
+    "osc3.octave": 2,
     "osc3.semi": 0,
     "osc3.fine": 0.0,
     "osc3.pw": 0.5,
-    "osc3.unison": 1,
-    "osc3.detune": 0.0,
-    "osc3.spread": 0.0,
-    "osc3.reset": true,
+    "osc3.unison": 5,
+    "osc3.detune": 14,
+    "osc3.spread": 1.0,
+    "osc3.reset": false,
     "osc3.sync": false,
     "noise.level": 0.01,
     "filter.mode": "lp12",
@@ -1206,10 +1167,10 @@
     "mod1.via": "none",
     "mod1.dest": "cutoff",
     "mod1.amount": 0.05,
-    "mod2.source": "random",
+    "mod2.source": "none",
     "mod2.via": "none",
-    "mod2.dest": "pitch",
-    "mod2.amount": 0.0012,
+    "mod2.dest": "none",
+    "mod2.amount": 0.0,
     "mod3.source": "none",
     "mod3.via": "none",
     "mod3.dest": "none",
@@ -1254,6 +1215,11 @@
       "b3.freq": 600,
       "b3.gain": -2.5,
       "b3.q": 1.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 2800,
+      "b5.gain": 0.0,
+      "b5.q": 1.2,
       "b7.on": 1,
       "b7.type": 2,
       "b7.freq": 4000,
@@ -1261,7 +1227,6 @@
       "b7.q": 0.71,
       "b2.on": 0,
       "b4.on": 0,
-      "b5.on": 0,
       "b6.on": 0,
       "b8.on": 0
      },
@@ -1270,7 +1235,7 @@
        {
         "bar": 0,
         "beat": 0,
-        "value": 13.0,
+        "value": 10.5,
         "shape": "hold"
        },
        {
@@ -1284,13 +1249,41 @@
        {
         "bar": 0,
         "beat": 0,
-        "value": -9.0,
+        "value": -8.0,
         "shape": "hold"
        },
        {
         "bar": 36,
         "beat": 0,
         "value": -2.5,
+        "shape": "hold"
+       }
+      ],
+      "b5.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 5.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 36,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ],
+      "b1.freq": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 200,
+        "shape": "hold"
+       },
+       {
+        "bar": 36,
+        "beat": 0,
+        "value": 180,
         "shape": "hold"
        }
       ]
@@ -1328,7 +1321,27 @@
    "sends": [
     {
      "to": "Hall",
-     "level_db": -6
+     "level_db": -6,
+     "automation": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": -6.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 44,
+       "beat": 0,
+       "value": -20.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 52,
+       "beat": 0,
+       "value": -6.0,
+       "shape": "hold"
+      }
+     ]
     },
     {
      "to": "Delay",
@@ -1340,13 +1353,13 @@
      {
       "bar": 0,
       "beat": 0,
-      "value": -14.5,
+      "value": -32.0,
       "shape": "hold"
      },
      {
       "bar": 3,
       "beat": 0,
-      "value": -14.5,
+      "value": -32.0,
       "shape": "linear"
      },
      {
@@ -1391,7 +1404,7 @@
       {
        "bar": 0,
        "beat": 0,
-       "value": 9000,
+       "value": 12000,
        "shape": "hold"
       },
       {
@@ -1430,6 +1443,48 @@
        "value": 3000,
        "shape": "linear"
       }
+     ],
+     "osc1.level": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": 0.25,
+       "shape": "hold"
+      },
+      {
+       "bar": 36,
+       "beat": 0,
+       "value": 0.6,
+       "shape": "hold"
+      }
+     ],
+     "osc2.level": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": 0.25,
+       "shape": "hold"
+      },
+      {
+       "bar": 36,
+       "beat": 0,
+       "value": 0.3,
+       "shape": "hold"
+      }
+     ],
+     "osc3.level": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": 0.6,
+       "shape": "hold"
+      },
+      {
+       "bar": 36,
+       "beat": 0,
+       "value": 0.12,
+       "shape": "hold"
+      }
      ]
     }
    }
@@ -1441,7 +1496,13 @@
    ],
    "preset": "Bass",
    "color": "#8bc34a",
-   "gain_db": -5.0,
+   "gain_db": -8.5,
+   "transforms": [
+    {
+     "op": "legato",
+     "max_gap": 480
+    }
+   ],
    "params": {
     "osc1.wave": "saw",
     "osc1.level": 0.6,
@@ -1483,7 +1544,7 @@
     "filter.drive": 0.4,
     "filter.key": 0.4,
     "filter.env": 1.8,
-    "filter.lowcut": 60,
+    "filter.lowcut": 35,
     "fenv.attack": 0.001,
     "fenv.decay": 0.18,
     "fenv.sustain": 0.3,
@@ -1492,7 +1553,7 @@
     "amp.attack": 0.002,
     "amp.decay": 0.3,
     "amp.sustain": 0.85,
-    "amp.release": 0.06,
+    "amp.release": 0.08,
     "amp.velocity": 0.3,
     "mod1.source": "none",
     "mod1.via": "none",
@@ -1537,33 +1598,41 @@
       "output": 0.0,
       "b1.on": 1,
       "b1.type": 3,
-      "b1.freq": 75,
+      "b1.freq": 45,
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 24,
       "b2.on": 1,
-      "b2.type": 0,
-      "b2.freq": 140,
-      "b2.gain": 2.0,
-      "b2.q": 0.9,
+      "b2.type": 1,
+      "b2.freq": 80,
+      "b2.gain": 3.0,
+      "b2.q": 0.71,
       "b3.on": 1,
       "b3.type": 0,
-      "b3.freq": 320,
-      "b3.gain": -3.5,
-      "b3.q": 1.0,
+      "b3.freq": 160,
+      "b3.gain": -2.5,
+      "b3.q": 0.9,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 320,
+      "b4.gain": -3.5,
+      "b4.q": 1.0,
       "b5.on": 1,
       "b5.type": 0,
       "b5.freq": 1200,
       "b5.gain": 2.5,
       "b5.q": 1.0,
+      "b6.on": 1,
+      "b6.type": 0,
+      "b6.freq": 100,
+      "b6.gain": 5.0,
+      "b6.q": 1.5,
       "b8.on": 1,
       "b8.type": 4,
       "b8.freq": 6000,
       "b8.gain": 0,
       "b8.q": 0.71,
       "b8.slope": 12,
-      "b4.on": 0,
-      "b6.on": 0,
       "b7.on": 0
      }
     },
@@ -1595,15 +1664,31 @@
      "params": {
       "trigger": 1,
       "threshold": -30,
-      "depth": -14,
+      "depth": -1.0,
       "attack": 1.5,
-      "hold": 8,
-      "release": 150,
+      "hold": 0,
+      "release": 140,
       "shape": 1.4,
       "mix": 1.0
      },
      "key": {
       "from": "Kick"
+     }
+    },
+    {
+     "effect": "ducker",
+     "params": {
+      "trigger": 1,
+      "threshold": -30,
+      "depth": -45.0,
+      "attack": 1.5,
+      "hold": 150,
+      "release": 30,
+      "shape": 1.4,
+      "mix": 1.0
+     },
+     "key": {
+      "from": "Snare"
      }
     }
    ]
@@ -1615,7 +1700,7 @@
    ],
    "preset": "Bass",
    "color": "#4a8a2a",
-   "gain_db": -21.5,
+   "gain_db": -24.0,
    "transforms": [
     {
      "op": "legato",
@@ -1750,15 +1835,31 @@
      "params": {
       "trigger": 1,
       "threshold": -30,
-      "depth": -24,
+      "depth": -1.0,
       "attack": 1.5,
-      "hold": 15,
-      "release": 190,
+      "hold": 80,
+      "release": 140,
       "shape": 1.4,
       "mix": 1.0
      },
      "key": {
       "from": "Kick"
+     }
+    },
+    {
+     "effect": "ducker",
+     "params": {
+      "trigger": 1,
+      "threshold": -30,
+      "depth": -45.0,
+      "attack": 1.5,
+      "hold": 150,
+      "release": 30,
+      "shape": 1.4,
+      "mix": 1.0
+     },
+     "key": {
+      "from": "Snare"
      }
     }
    ],
@@ -1767,25 +1868,25 @@
      {
       "bar": 0,
       "beat": 0,
-      "value": -21.5,
+      "value": -24.0,
       "shape": "hold"
      },
      {
       "bar": 36,
       "beat": 0,
-      "value": -32.5,
+      "value": -41.0,
       "shape": "hold"
      },
      {
       "bar": 52,
       "beat": 0,
-      "value": -21.5,
+      "value": -24.0,
       "shape": "hold"
      },
      {
       "bar": 76,
       "beat": 0,
-      "value": -23.5,
+      "value": -26.0,
       "shape": "hold"
      }
     ]
@@ -1798,7 +1899,7 @@
    ],
    "preset": "Pad",
    "color": "#9e9e9e",
-   "gain_db": -22.0,
+   "gain_db": -15.0,
    "params": {
     "osc1.wave": "saw",
     "osc1.level": 0.0,
@@ -1834,13 +1935,13 @@
     "osc3.reset": true,
     "osc3.sync": false,
     "noise.level": 0.9,
-    "filter.mode": "bp12",
-    "filter.cutoff": 400,
-    "filter.res": 0.5,
+    "filter.mode": "lp12",
+    "filter.cutoff": 2500,
+    "filter.res": 0.2,
     "filter.drive": 0.0,
     "filter.key": 0.0,
     "filter.env": 0.0,
-    "amp.attack": 2.0,
+    "amp.attack": 0.3,
     "amp.decay": 1.0,
     "amp.sustain": 1.0,
     "amp.release": 0.3,
@@ -1888,7 +1989,7 @@
       "output": 0.0,
       "b1.on": 1,
       "b1.type": 3,
-      "b1.freq": 300,
+      "b1.freq": 150,
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 24,
@@ -1899,6 +2000,86 @@
       "b6.on": 0,
       "b7.on": 0,
       "b8.on": 0
+     },
+     "automation": {
+      "b1.freq": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 600,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 150,
+        "shape": "hold"
+       }
+      ]
+     }
+    },
+    {
+     "effect": "chorus",
+     "params": {
+      "rate": 0.5,
+      "depth": 0.6,
+      "delay": 9,
+      "mix": 0.5,
+      "spread": 180,
+      "voices": 3,
+      "feedback": 0.0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.5
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 500,
+      "b4.gain": 0.0,
+      "b4.q": 1.2,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b7.on": 0,
+      "b8.on": 0
+     },
+     "automation": {
+      "b4.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -8.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": 6.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ]
      }
     }
    ],
@@ -1909,66 +2090,86 @@
     }
    ],
    "automation": {
+    "gain": [
+     {
+      "bar": 0,
+      "beat": 0,
+      "value": -20.4,
+      "shape": "hold"
+     },
+     {
+      "bar": 4,
+      "beat": 0,
+      "value": -17.5,
+      "shape": "hold"
+     },
+     {
+      "bar": 44,
+      "beat": 0,
+      "value": -22.5,
+      "shape": "hold"
+     },
+     {
+      "bar": 52,
+      "beat": 0,
+      "value": -17.5,
+      "shape": "hold"
+     }
+    ],
     "params": {
      "filter.cutoff": [
       {
        "bar": 1,
        "beat": 1.4,
-       "value": 300,
+       "value": 2200,
        "shape": "linear"
       },
       {
        "bar": 2,
        "beat": 3.9,
-       "value": 7000,
-       "shape": {
-        "curve": -0.5
-       }
+       "value": 4000,
+       "shape": "linear"
       },
       {
        "bar": 3,
        "beat": 0,
-       "value": 300,
+       "value": 2200,
        "shape": "hold"
       },
       {
        "bar": 18,
        "beat": 0,
-       "value": 300,
+       "value": 2300,
        "shape": "linear"
       },
       {
        "bar": 19,
        "beat": 3.5,
-       "value": 9000,
-       "shape": {
-        "curve": -0.5
-       }
+       "value": 4500,
+       "shape": "linear"
       },
       {
        "bar": 20,
        "beat": 0,
-       "value": 300,
+       "value": 2300,
        "shape": "hold"
       },
       {
        "bar": 44,
        "beat": 0,
-       "value": 300,
+       "value": 2300,
        "shape": "linear"
       },
       {
        "bar": 51,
        "beat": 3,
-       "value": 11000,
-       "shape": {
-        "curve": -0.6
-       }
+       "value": 4500,
+       "shape": "linear"
       },
       {
        "bar": 52,
        "beat": 0,
-       "value": 300,
+       "value": 2300,
        "shape": "hold"
       }
      ]
@@ -2126,15 +2327,15 @@
    "instrument": "drumsynth",
    "preset": "tight-electronic",
    "color": "#e57373",
-   "gain_db": -5.0,
+   "gain_db": -8.0,
    "params": {
-    "kick.pitch_start": 320,
-    "kick.pitch_end": 50,
-    "kick.sweep": 40,
-    "kick.decay": 420,
-    "kick.click": 0.55,
+    "kick.pitch_start": 240,
+    "kick.pitch_end": 55,
+    "kick.sweep": 55,
+    "kick.decay": 330,
+    "kick.click": 0.4,
     "kick.click_tone": 3500,
-    "kick.drive": 0.45,
+    "kick.drive": 0.8,
     "kick.vel": 0.4
    },
    "inserts": [
@@ -2156,21 +2357,55 @@
       "b3.on": 1,
       "b3.type": 0,
       "b3.freq": 110,
-      "b3.gain": 2.5,
+      "b3.gain": 0.0,
       "b3.q": 1.0,
       "b4.on": 1,
       "b4.type": 0,
-      "b4.freq": 300,
-      "b4.gain": -3.5,
-      "b4.q": 1.2,
+      "b4.freq": 270,
+      "b4.gain": 5.0,
+      "b4.q": 2.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 520,
+      "b5.gain": -6.0,
+      "b5.q": 1.0,
       "b6.on": 1,
       "b6.type": 0,
       "b6.freq": 3500,
       "b6.gain": 2.5,
       "b6.q": 1.0,
-      "b5.on": 0,
       "b7.on": 0,
       "b8.on": 0
+     },
+     "automation": {
+      "b3.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -6.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ],
+      "b4.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -4.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 5.0,
+        "shape": "hold"
+       }
+      ]
      }
     },
     {
@@ -2199,21 +2434,24 @@
    "params": {
     "snare.body_hz": 200,
     "snare.body2_hz": 340,
-    "snare.body_level": 0.6,
+    "snare.body_level": 0.35,
     "snare.noise_type": "bandpass",
-    "snare.noise_cutoff": 5000,
+    "snare.noise_cutoff": 7000,
     "snare.noise_q": 0.6,
-    "snare.noise_decay": 260,
-    "snare.noise_level": 0.75,
-    "snare.decay": 300,
+    "snare.noise_decay": 600,
+    "snare.noise_level": 0.85,
+    "snare.decay": 400,
     "snare.vel": 0.8,
     "clap.bursts": 4,
     "clap.spread": 9,
     "clap.tone": 1500,
     "clap.q": 1.2,
-    "clap.tail": 0.5,
-    "clap.decay": 220,
-    "clap.level": -3
+    "clap.tail": 0.3,
+    "clap.decay": 120,
+    "clap.level": -8,
+    "snare.stereo_spread": 0.45,
+    "snare.noise_hold": 50,
+    "clap.stereo_spread": 0.0
    },
    "inserts": [
     {
@@ -2229,22 +2467,52 @@
       "b3.on": 1,
       "b3.type": 0,
       "b3.freq": 220,
-      "b3.gain": 1.5,
+      "b3.gain": -2.0,
       "b3.q": 1.0,
       "b4.on": 1,
       "b4.type": 0,
-      "b4.freq": 800,
-      "b4.gain": -2.0,
+      "b4.freq": 420,
+      "b4.gain": -5.0,
       "b4.q": 1.0,
       "b6.on": 1,
       "b6.type": 0,
-      "b6.freq": 5500,
-      "b6.gain": 2.0,
-      "b6.q": 0.9,
+      "b6.freq": 1800,
+      "b6.gain": 4.0,
+      "b6.q": 0.7,
       "b2.on": 0,
       "b5.on": 0,
       "b7.on": 0,
       "b8.on": 0
+     },
+     "automation": {
+      "b6.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 12.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 4.0,
+        "shape": "hold"
+       }
+      ],
+      "b3.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -8.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": -2.0,
+        "shape": "hold"
+       }
+      ]
      }
     },
     {
@@ -2258,12 +2526,72 @@
       "knee": 6.0,
       "mix": 1.0
      }
+    },
+    {
+     "effect": "chorus",
+     "params": {
+      "rate": 0.5,
+      "depth": 0.25,
+      "delay": 6,
+      "mix": 0.6,
+      "spread": 180,
+      "voices": 2,
+      "feedback": 0.0
+     }
     }
    ],
    "sends": [
     {
      "to": "Plate",
-     "level_db": -10
+     "level_db": -6
+    },
+    {
+     "to": "Room",
+     "level_db": -6.0,
+     "automation": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": -2.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 4,
+       "beat": 0,
+       "value": -6.0,
+       "shape": "hold"
+      }
+     ]
+    },
+    {
+     "to": "Wide",
+     "level_db": 0.0,
+     "automation": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": -2.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 4,
+       "beat": 0,
+       "value": 0.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 44,
+       "beat": 0,
+       "value": -8.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 52,
+       "beat": 0,
+       "value": 0.0,
+       "shape": "hold"
+      }
+     ]
     }
    ]
   },
@@ -2275,12 +2603,12 @@
    "instrument": "drumsynth",
    "preset": "pop-rock",
    "color": "#fff176",
-   "gain_db": 4.0,
+   "gain_db": -1.5,
    "pan": 0.1,
    "params": {
-    "hat_closed.decay": 90,
-    "hat_closed.tone": 9500,
-    "hat_closed.highpass": 7500,
+    "hat_closed.decay": 35,
+    "hat_closed.tone": 8500,
+    "hat_closed.highpass": 4500,
     "hat_closed.metal": 0.5,
     "hat_closed.noise": 0.7,
     "hat_closed.vel": 0.8,
@@ -2294,7 +2622,13 @@
     "hat_pedal.noise": 0.8,
     "hat_pedal.vel": 0.8,
     "hat_pedal.level": -3,
-    "hat_pedal.pan": -0.2
+    "hat_pedal.pan": -0.2,
+    "hat_closed.stereo_spread": 0.45,
+    "hat_closed.noise_hold": 42,
+    "hat_closed.noise_color": 0.0,
+    "hat_open.stereo_spread": 0.95,
+    "hat_pedal.stereo_spread": 0.95,
+    "crash.stereo_spread": 0.95
    },
    "inserts": [
     {
@@ -2307,17 +2641,59 @@
       "b1.gain": 0,
       "b1.q": 0.71,
       "b1.slope": 24,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 2400,
+      "b5.gain": 0.0,
+      "b5.q": 0.4,
+      "b6.on": 1,
+      "b6.type": 0,
+      "b6.freq": 9000,
+      "b6.gain": -3.5,
+      "b6.q": 1.0,
       "b7.on": 1,
       "b7.type": 2,
       "b7.freq": 11000,
-      "b7.gain": 1.0,
+      "b7.gain": -2.0,
       "b7.q": 0.71,
       "b2.on": 0,
       "b3.on": 0,
       "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
       "b8.on": 0
+     },
+     "automation": {
+      "b5.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 16.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ]
+     }
+    },
+    {
+     "effect": "chorus",
+     "params": {
+      "rate": 0.7,
+      "depth": 0.3,
+      "delay": 4,
+      "mix": 0.6,
+      "spread": 180,
+      "voices": 2,
+      "feedback": 0.0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.0
      }
     }
    ],
@@ -2325,8 +2701,266 @@
     {
      "to": "Plate",
      "level_db": -22
+    },
+    {
+     "to": "Room",
+     "level_db": -10.0,
+     "automation": [
+      {
+       "bar": 0,
+       "beat": 0,
+       "value": -6.0,
+       "shape": "hold"
+      },
+      {
+       "bar": 4,
+       "beat": 0,
+       "value": -10.0,
+       "shape": "hold"
+      }
+     ]
     }
    ]
+  },
+  {
+   "name": "Zap",
+   "color": "#b0b0b0",
+   "gain_db": -15.8,
+   "parts": [
+    {
+     "from": [
+      "Kick"
+     ],
+     "transforms": [
+      {
+       "op": "keep",
+       "bars": [
+        32,
+        32.02
+       ]
+      }
+     ]
+    },
+    {
+     "from": [
+      "Kick"
+     ],
+     "transforms": [
+      {
+       "op": "keep",
+       "bars": [
+        48,
+        48.02
+       ]
+      }
+     ]
+    },
+    {
+     "from": [
+      "Kick"
+     ],
+     "transforms": [
+      {
+       "op": "keep",
+       "bars": [
+        64,
+        64.02
+       ]
+      }
+     ]
+    }
+   ],
+   "transforms": [
+    {
+     "op": "set_pitch",
+     "pitch": 78
+    },
+    {
+     "op": "length",
+     "set": 7670
+    },
+    {
+     "op": "velocity",
+     "min": 100,
+     "max": 100,
+     "scale": 0,
+     "add": 100
+    }
+   ],
+   "preset": "Lead",
+   "params": {
+    "osc1.wave": "saw",
+    "osc1.level": 0.5,
+    "osc1.octave": 0,
+    "osc1.semi": 0,
+    "osc1.fine": 0.0,
+    "osc1.pw": 0.5,
+    "osc1.unison": 1,
+    "osc1.detune": 0.0,
+    "osc1.spread": 0.0,
+    "osc1.reset": true,
+    "osc1.sync": false,
+    "osc2.wave": "pulse",
+    "osc2.level": 0.4,
+    "osc2.octave": 0,
+    "osc2.semi": 0,
+    "osc2.fine": 0.0,
+    "osc2.pw": 0.25,
+    "osc2.unison": 1,
+    "osc2.detune": 0.0,
+    "osc2.spread": 0.0,
+    "osc2.reset": true,
+    "osc2.sync": false,
+    "osc3.wave": "sine",
+    "osc3.level": 0.0,
+    "osc3.octave": 0,
+    "osc3.semi": 0,
+    "osc3.fine": 0.0,
+    "osc3.pw": 0.5,
+    "osc3.unison": 1,
+    "osc3.detune": 0.0,
+    "osc3.spread": 0.0,
+    "osc3.reset": true,
+    "osc3.sync": false,
+    "noise.level": 0.0,
+    "filter.mode": "bypass",
+    "filter.cutoff": 16000,
+    "filter.res": 0.0,
+    "filter.drive": 0.0,
+    "filter.key": 0.0,
+    "filter.env": 0.0,
+    "fenv.attack": 0.001,
+    "fenv.decay": 0.1,
+    "fenv.sustain": 1.0,
+    "fenv.release": 0.05,
+    "fenv.velocity": 0.0,
+    "amp.attack": 0.002,
+    "amp.decay": 0.1,
+    "amp.sustain": 1.0,
+    "amp.release": 0.01,
+    "amp.velocity": 0.0,
+    "menv.attack": 0.001,
+    "menv.decay": 0.1,
+    "menv.sustain": 1.0,
+    "menv.release": 0.01,
+    "menv.velocity": 0.0,
+    "lfo1.shape": "saw_down",
+    "lfo1.sync": true,
+    "lfo1.beats": 0.5,
+    "lfo1.retrig": true,
+    "lfo1.phase": 0.0,
+    "lfo2.shape": "saw_up",
+    "lfo2.sync": true,
+    "lfo2.beats": 16.0,
+    "lfo2.retrig": true,
+    "lfo2.phase": 0.0,
+    "mod1.source": "lfo1",
+    "mod1.via": "none",
+    "mod1.dest": "pitch",
+    "mod1.amount": 0.2604166666666667,
+    "mod2.source": "lfo2",
+    "mod2.via": "none",
+    "mod2.dest": "pitch",
+    "mod2.amount": 0.5625,
+    "mod3.source": "lfo1",
+    "mod3.via": "none",
+    "mod3.dest": "amp",
+    "mod3.amount": 0.6,
+    "mod4.source": "none",
+    "mod4.via": "none",
+    "mod4.dest": "none",
+    "mod4.amount": 0.0,
+    "mod5.source": "none",
+    "mod5.via": "none",
+    "mod5.dest": "none",
+    "mod5.amount": 0.0,
+    "mod6.source": "none",
+    "mod6.via": "none",
+    "mod6.dest": "none",
+    "mod6.amount": 0.0,
+    "mod7.source": "none",
+    "mod7.via": "none",
+    "mod7.dest": "none",
+    "mod7.amount": 0.0,
+    "mod8.source": "none",
+    "mod8.via": "none",
+    "mod8.dest": "none",
+    "mod8.amount": 0.0,
+    "global.mode": "mono",
+    "global.poly": 1,
+    "global.level": 0.5,
+    "global.glide": 0.0
+   },
+   "inserts": [
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 3,
+      "b1.freq": 300,
+      "b1.gain": 0,
+      "b1.q": 0.71,
+      "b1.slope": 24,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 1400,
+      "b4.gain": -1.5,
+      "b4.q": 1.0,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 4000,
+      "b7.gain": 3.0,
+      "b7.q": 0.71,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "chorus",
+     "params": {
+      "rate": 0.5,
+      "depth": 0.6,
+      "delay": 9,
+      "mix": 0.5,
+      "spread": 180,
+      "voices": 3,
+      "feedback": 0.0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.2
+     }
+    }
+   ],
+   "sends": [],
+   "automation": {
+    "gain": [
+     {
+      "bar": 0,
+      "beat": 0,
+      "value": -15.8,
+      "shape": "hold"
+     },
+     {
+      "bar": 48,
+      "beat": 0,
+      "value": -19.7,
+      "shape": "hold"
+     },
+     {
+      "bar": 52,
+      "beat": 0,
+      "value": -15.8,
+      "shape": "hold"
+     }
+    ]
+   }
   }
  ],
  "returns": [
@@ -2416,28 +3050,234 @@
       "b5.freq": 2500,
       "b5.gain": -2.0,
       "b5.q": 1.0,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 9000,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 12,
       "b2.on": 0,
       "b3.on": 0,
       "b4.on": 0,
       "b6.on": 0,
-      "b7.on": 0,
-      "b8.on": 0
+      "b7.on": 0
      }
     }
    ],
    "gain_db": -4.0
+  },
+  {
+   "name": "Lead Hall",
+   "inserts": [
+    {
+     "effect": "reverb",
+     "params": {
+      "mix": 1.0,
+      "decay": 3.0,
+      "damping": 0.45,
+      "damp_hz": 6500,
+      "predelay": 25,
+      "modulation": 0.4,
+      "width": 1.0,
+      "low_cut": 300,
+      "high_cut": 8000
+     }
+    },
+    {
+     "effect": "ducker",
+     "params": {
+      "trigger": 1,
+      "threshold": -30,
+      "depth": -6,
+      "attack": 1.5,
+      "hold": 8,
+      "release": 250,
+      "shape": 1.4,
+      "mix": 1.0
+     },
+     "key": {
+      "from": "Kick"
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 2500,
+      "b5.gain": -3.0,
+      "b5.q": 0.8,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 10000,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 12,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b6.on": 0,
+      "b7.on": 0
+     }
+    }
+   ],
+   "gain_db": -3.0
+  },
+  {
+   "name": "Room",
+   "inserts": [
+    {
+     "effect": "reverb",
+     "params": {
+      "mix": 1.0,
+      "decay": 0.7,
+      "damping": 0.5,
+      "damp_hz": 7000,
+      "predelay": 8,
+      "modulation": 0.2,
+      "width": 1.0,
+      "low_cut": 150,
+      "high_cut": 12000
+     }
+    }
+   ],
+   "gain_db": 0.0
+  },
+  {
+   "name": "Wide",
+   "inserts": [
+    {
+     "effect": "delay",
+     "params": {
+      "mix": 1.0,
+      "sync": 0,
+      "time": 13.0,
+      "feedback": 0.0,
+      "low_cut": 150,
+      "high_cut": 6000,
+      "ping_pong": 1
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 3,
+      "b1.freq": 180,
+      "b1.gain": 0,
+      "b1.q": 0.71,
+      "b1.slope": 12,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 1200,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 24,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b7.on": 0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "mono": 1
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "phase_r": 1
+     }
+    }
+   ],
+   "gain_db": 0.0
   }
  ],
  "groups": [
   {
-   "name": "Chip",
+   "name": "Chip Kit",
    "members": [
-    "Chip Lead",
-    "Chip Chords",
-    "Chip Bass",
     "Chip Drums"
    ],
-   "color": "#3f9a3f",
+   "color": "#2f7f2f",
+   "gain_db": -4.5,
+   "automation": {
+    "gain": [
+     {
+      "bar": 0,
+      "beat": 0,
+      "value": -6.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 4,
+      "beat": 0,
+      "value": -7.2,
+      "shape": "hold"
+     },
+     {
+      "bar": 20,
+      "beat": 0,
+      "value": -6.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 36,
+      "beat": 0,
+      "value": -7.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 44,
+      "beat": 0,
+      "value": -5.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 68,
+      "beat": 0,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 68,
+      "beat": 2,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 69,
+      "beat": 2,
+      "value": -8.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 72,
+      "beat": 0,
+      "value": -9.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 75,
+      "beat": 3.6,
+      "value": -10.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 76,
+      "beat": 0,
+      "value": -9,
+      "shape": "hold"
+     }
+    ]
+   },
    "inserts": [
     {
      "effect": "compressor",
@@ -2468,22 +3308,95 @@
       "b2.on": 1,
       "b2.type": 0,
       "b2.freq": 130,
-      "b2.gain": -3.0,
+      "b2.gain": -1.0,
       "b2.q": 0.8,
       "b7.on": 1,
       "b7.type": 2,
       "b7.freq": 5000,
       "b7.gain": 2.5,
       "b7.q": 0.71,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 9000,
+      "b5.gain": -4.0,
+      "b5.q": 0.8,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 20000,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 12,
       "b1.on": 0,
       "b3.on": 0,
       "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
-      "b8.on": 0
+      "b6.on": 0
+     },
+     "automation": {
+      "b8.on": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 1,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       }
+      ],
+      "b8.freq": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 500,
+        "shape": "linear"
+       },
+       {
+        "bar": 69,
+        "beat": 0,
+        "value": 4500,
+        "shape": {
+         "curve": 0.5
+        }
+       },
+       {
+        "bar": 75,
+        "beat": 3.99,
+        "value": 4500,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       }
+      ]
      }
     }
+   ]
+  },
+  {
+   "name": "Chip Inst",
+   "members": [
+    "Chip Chords",
+    "Chip Bass"
    ],
+   "color": "#3f9a3f",
    "gain_db": -4.5,
    "automation": {
     "gain": [
@@ -2494,9 +3407,21 @@
       "shape": "hold"
      },
      {
+      "bar": 4,
+      "beat": 0,
+      "value": -8.4,
+      "shape": "hold"
+     },
+     {
+      "bar": 20,
+      "beat": 0,
+      "value": -6.0,
+      "shape": "hold"
+     },
+     {
       "bar": 36,
       "beat": 0,
-      "value": -8.0,
+      "value": -7.0,
       "shape": "hold"
      },
      {
@@ -2508,19 +3433,31 @@
      {
       "bar": 68,
       "beat": 0,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 68,
+      "beat": 2,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 69,
+      "beat": 2,
       "value": -8.0,
       "shape": "linear"
      },
      {
       "bar": 72,
       "beat": 0,
-      "value": -10.5,
+      "value": -9.0,
       "shape": "linear"
      },
      {
       "bar": 75,
       "beat": 3.6,
-      "value": -14,
+      "value": -10.0,
       "shape": "linear"
      },
      {
@@ -2530,16 +3467,309 @@
       "shape": "hold"
      }
     ]
-   }
+   },
+   "inserts": [
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 2.5,
+      "attack": 10,
+      "release": 120,
+      "makeup": 2,
+      "knee": 6.0,
+      "mix": 0.8
+     }
+    },
+    {
+     "effect": "saturation",
+     "params": {
+      "drive": 4,
+      "curve": 1,
+      "even": 0.1,
+      "mix": 0.5,
+      "output": 0.0
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b2.on": 1,
+      "b2.type": 0,
+      "b2.freq": 130,
+      "b2.gain": -1.0,
+      "b2.q": 0.8,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 5000,
+      "b7.gain": 2.5,
+      "b7.q": 0.71,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 20000,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 12,
+      "b1.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b6.on": 0
+     },
+     "automation": {
+      "b8.on": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 1,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       }
+      ],
+      "b8.freq": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 500,
+        "shape": "linear"
+       },
+       {
+        "bar": 69,
+        "beat": 0,
+        "value": 4500,
+        "shape": {
+         "curve": 0.5
+        }
+       },
+       {
+        "bar": 75,
+        "beat": 3.99,
+        "value": 4500,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       }
+      ]
+     }
+    }
+   ]
   },
   {
-   "name": "Drums",
+   "name": "Chip Mel",
+   "members": [
+    "Chip Lead"
+   ],
+   "color": "#7fd17f",
+   "gain_db": -4.5,
+   "automation": {
+    "gain": [
+     {
+      "bar": 0,
+      "beat": 0,
+      "value": -8.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 4,
+      "beat": 0,
+      "value": -8.4,
+      "shape": "hold"
+     },
+     {
+      "bar": 20,
+      "beat": 0,
+      "value": -6.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 36,
+      "beat": 0,
+      "value": -7.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 44,
+      "beat": 0,
+      "value": -5.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 68,
+      "beat": 0,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 68,
+      "beat": 2,
+      "value": -19.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 69,
+      "beat": 2,
+      "value": -8.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 72,
+      "beat": 0,
+      "value": -9.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 75,
+      "beat": 3.6,
+      "value": -10.0,
+      "shape": "linear"
+     },
+     {
+      "bar": 76,
+      "beat": 0,
+      "value": -9,
+      "shape": "hold"
+     }
+    ]
+   },
+   "inserts": [
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 2.5,
+      "attack": 10,
+      "release": 120,
+      "makeup": 2,
+      "knee": 6.0,
+      "mix": 0.8
+     }
+    },
+    {
+     "effect": "saturation",
+     "params": {
+      "drive": 4,
+      "curve": 1,
+      "even": 0.1,
+      "mix": 0.5,
+      "output": 0.0
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b2.on": 1,
+      "b2.type": 0,
+      "b2.freq": 130,
+      "b2.gain": -1.0,
+      "b2.q": 0.8,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 5000,
+      "b7.gain": 2.5,
+      "b7.q": 0.71,
+      "b8.on": 1,
+      "b8.type": 4,
+      "b8.freq": 20000,
+      "b8.gain": 0,
+      "b8.q": 0.71,
+      "b8.slope": 12,
+      "b1.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b6.on": 0
+     },
+     "automation": {
+      "b8.on": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 1,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 0,
+        "shape": "hold"
+       }
+      ],
+      "b8.freq": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       },
+       {
+        "bar": 68,
+        "beat": 0,
+        "value": 500,
+        "shape": "linear"
+       },
+       {
+        "bar": 69,
+        "beat": 0,
+        "value": 4500,
+        "shape": {
+         "curve": 0.5
+        }
+       },
+       {
+        "bar": 75,
+        "beat": 3.99,
+        "value": 4500,
+        "shape": "hold"
+       },
+       {
+        "bar": 76,
+        "beat": 0,
+        "value": 20000,
+        "shape": "hold"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "Kit",
    "members": [
     "Kick",
     "Snare",
     "Cymbals"
    ],
    "color": "#d07020",
+   "gain_db": 0.0,
    "inserts": [
     {
      "effect": "compressor",
@@ -2568,32 +3798,191 @@
      "effect": "eq",
      "params": {
       "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 0,
+      "b1.freq": 50,
+      "b1.gain": 2.0,
+      "b1.q": 1.4,
       "b2.on": 1,
       "b2.type": 1,
       "b2.freq": 70,
       "b2.gain": 1.0,
       "b2.q": 0.71,
+      "b3.on": 1,
+      "b3.type": 0,
+      "b3.freq": 180,
+      "b3.gain": -3.0,
+      "b3.q": 1.2,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 2800,
+      "b4.gain": 0.0,
+      "b4.q": 0.7,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 8000,
+      "b5.gain": -2.5,
+      "b5.q": 0.6,
+      "b6.on": 1,
+      "b6.type": 2,
+      "b6.freq": 15000,
+      "b6.gain": 3.0,
+      "b6.q": 0.71,
       "b7.on": 1,
       "b7.type": 2,
       "b7.freq": 9000,
       "b7.gain": 1.0,
       "b7.q": 0.71,
-      "b1.on": 0,
-      "b3.on": 0,
-      "b4.on": 0,
-      "b5.on": 0,
-      "b6.on": 0,
-      "b8.on": 0
+      "b8.on": 1,
+      "b8.type": 0,
+      "b8.freq": 315,
+      "b8.gain": 0.0,
+      "b8.q": 1.2
+     },
+     "automation": {
+      "b6.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 5.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 3.0,
+        "shape": "hold"
+       }
+      ],
+      "b4.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 2.5,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": -4.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ],
+      "b8.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": -2.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": 0.0,
+        "shape": "hold"
+       }
+      ],
+      "b5.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -2.5,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": -8.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": -2.5,
+        "shape": "hold"
+       }
+      ],
+      "b3.gain": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": -3.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": -3.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": -3.0,
+        "shape": "hold"
+       }
+      ]
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.0
+     },
+     "automation": {
+      "width": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 1.2,
+        "shape": "hold"
+       },
+       {
+        "bar": 4,
+        "beat": 0,
+        "value": 1.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": 0.6,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": 1.0,
+        "shape": "hold"
+       }
+      ]
      }
     }
    ],
-   "gain_db": 0.0,
    "automation": {
     "gain": [
      {
       "bar": 0,
       "beat": 0,
-      "value": -14,
+      "value": -11.8,
       "shape": "hold"
      },
      {
@@ -2611,13 +4000,13 @@
      {
       "bar": 44,
       "beat": 0,
-      "value": -5,
+      "value": -6.5,
       "shape": "linear"
      },
      {
       "bar": 51,
       "beat": 3,
-      "value": 0.5,
+      "value": -0.5,
       "shape": "linear"
      },
      {
@@ -2630,14 +4019,13 @@
    }
   },
   {
-   "name": "Synths",
+   "name": "Lead Bus",
    "members": [
     "Lead",
-    "Lead Oct",
-    "Chords",
-    "Pad"
+    "Lead Oct"
    ],
-   "color": "#c08040",
+   "color": "#f0b44c",
+   "gain_db": 0.7,
    "inserts": [
     {
      "effect": "compressor",
@@ -2673,8 +4061,69 @@
       "b8.on": 0
      }
     }
+   ]
+  },
+  {
+   "name": "Chords Bus",
+   "members": [
+    "Chords"
    ],
-   "gain_db": 0.0
+   "color": "#e57fb0",
+   "gain_db": 0.0,
+   "inserts": [
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 2,
+      "attack": 15,
+      "release": 150,
+      "makeup": 1,
+      "knee": 6.0,
+      "mix": 0.6
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 2500,
+      "b5.gain": 1.5,
+      "b5.q": 0.8,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 10000,
+      "b7.gain": 1.5,
+      "b7.q": 0.71,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b6.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b6.on": 1,
+      "b6.type": 2,
+      "b6.freq": 14000,
+      "b6.gain": 4.0,
+      "b6.q": 0.71,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b7.on": 0,
+      "b8.on": 0
+     }
+    }
+   ]
   },
   {
    "name": "Low",
@@ -2683,6 +4132,7 @@
     "Sub"
    ],
    "color": "#609030",
+   "gain_db": -0.5,
    "inserts": [
     {
      "effect": "compressor",
@@ -2695,75 +4145,293 @@
       "knee": 6.0,
       "mix": 1.0
      }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b3.on": 1,
+      "b3.type": 0,
+      "b3.freq": 40,
+      "b3.gain": -2.5,
+      "b3.q": 2.0,
+      "b4.on": 1,
+      "b4.type": 0,
+      "b4.freq": 55,
+      "b4.gain": 1.5,
+      "b4.q": 2.0,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b7.on": 0,
+      "b8.on": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "DRUMS",
+   "members": [
+    "Kit",
+    "Chip Kit"
+   ],
+   "color": "#d07020",
+   "gain_db": 0.0
+  },
+  {
+   "name": "INSTRUMENTS",
+   "members": [
+    "Chip Inst",
+    "Chords Bus",
+    "Low"
+   ],
+   "color": "#8bc34a",
+   "gain_db": 0.0
+  },
+  {
+   "name": "MELODIES",
+   "members": [
+    "Chip Mel",
+    "Lead Bus"
+   ],
+   "color": "#f0b44c",
+   "gain_db": 0.0
+  },
+  {
+   "name": "FX",
+   "members": [
+    "Riser",
+    "Impact",
+    "Zap"
+   ],
+   "color": "#9e9e9e",
+   "gain_db": 0.0
+  },
+  {
+   "name": "PAD",
+   "members": [
+    "Pad"
+   ],
+   "color": "#7a8fd6",
+   "gain_db": 0.0,
+   "inserts": [
+    {
+     "effect": "compressor",
+     "params": {
+      "threshold": -20,
+      "ratio": 2,
+      "attack": 15,
+      "release": 150,
+      "makeup": 1,
+      "knee": 6.0,
+      "mix": 0.6
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b5.on": 1,
+      "b5.type": 0,
+      "b5.freq": 2500,
+      "b5.gain": 1.5,
+      "b5.q": 0.8,
+      "b7.on": 1,
+      "b7.type": 2,
+      "b7.freq": 10000,
+      "b7.gain": 1.5,
+      "b7.q": 0.71,
+      "b1.on": 0,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b6.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "eq",
+     "params": {
+      "output": 0.0,
+      "b1.on": 1,
+      "b1.type": 3,
+      "b1.freq": 380,
+      "b1.gain": 0,
+      "b1.q": 0.71,
+      "b1.slope": 48,
+      "b2.on": 0,
+      "b3.on": 0,
+      "b4.on": 0,
+      "b5.on": 0,
+      "b6.on": 0,
+      "b7.on": 0,
+      "b8.on": 0
+     }
+    },
+    {
+     "effect": "utility",
+     "params": {
+      "width": 1.0
+     },
+     "automation": {
+      "width": [
+       {
+        "bar": 0,
+        "beat": 0,
+        "value": 1.0,
+        "shape": "hold"
+       },
+       {
+        "bar": 36,
+        "beat": 0,
+        "value": 0.6,
+        "shape": "hold"
+       },
+       {
+        "bar": 44,
+        "beat": 0,
+        "value": 0.15,
+        "shape": "hold"
+       },
+       {
+        "bar": 52,
+        "beat": 0,
+        "value": 1.0,
+        "shape": "hold"
+       }
+      ]
+     }
     }
    ],
-   "gain_db": 0.0
+   "automation": {
+    "gain": [
+     {
+      "bar": 0,
+      "beat": 0,
+      "value": 0.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 36,
+      "beat": 0,
+      "value": 1.8,
+      "shape": "hold"
+     },
+     {
+      "bar": 44,
+      "beat": 0,
+      "value": -8.0,
+      "shape": "hold"
+     },
+     {
+      "bar": 52,
+      "beat": 0,
+      "value": 0.0,
+      "shape": "hold"
+     }
+    ]
+   }
   }
  ],
  "master": [
   {
    "effect": "eq",
    "params": {
-    "output": 0.0,
     "b1.on": 1,
     "b1.type": 3,
-    "b1.freq": 22,
-    "b1.gain": 0,
-    "b1.q": 0.71,
+    "b1.freq": 20,
     "b1.slope": 24,
-    "b2.on": 1,
-    "b2.type": 1,
-    "b2.freq": 55,
-    "b2.gain": 0.5,
-    "b2.q": 0.71,
-    "b3.on": 1,
+    "b1.q": 0.71,
+    "b2.type": 0,
+    "b2.freq": 30,
+    "b2.gain": 2.0,
+    "b2.q": 2.0,
     "b3.type": 0,
-    "b3.freq": 130,
-    "b3.gain": 1.5,
-    "b3.q": 0.8,
-    "b4.on": 1,
-    "b4.type": 0,
-    "b4.freq": 350,
-    "b4.gain": -1.0,
-    "b4.q": 0.9,
-    "b7.on": 1,
-    "b7.type": 2,
-    "b7.freq": 9000,
-    "b7.gain": 1.0,
-    "b7.q": 0.71,
-    "b5.on": 0,
-    "b6.on": 0,
-    "b8.on": 0
+    "b3.freq": 42,
+    "b3.gain": -1.2,
+    "b3.q": 2.5,
+    "b7.freq": 16000,
+    "b7.gain": 3.5,
+    "b7.q": 0.71
    }
   },
   {
-   "effect": "compressor",
+   "effect": "saturation",
    "params": {
-    "threshold": -14,
-    "ratio": 1.8,
-    "attack": 30,
-    "release": 200,
-    "makeup": 0,
-    "knee": 8,
-    "mix": 1.0
+    "drive": 14,
+    "curve": 1,
+    "auto_gain": 0,
+    "output": -4,
+    "mix": 1
+   }
+  },
+  {
+   "effect": "eq",
+   "params": {
+    "b8.on": 1,
+    "b8.type": 4,
+    "b8.freq": 20000,
+    "b8.slope": 48,
+    "b8.q": 0.71
    }
   },
   {
    "effect": "limiter",
    "params": {
-    "input": 9.5,
-    "ceiling": -2.3,
-    "release": 100,
+    "input": 4,
+    "ceiling": -2,
+    "release": 150,
+    "hold": 0,
     "true_peak": 1
    }
   }
  ],
+ "master_gain_db": 0.0,
  "output": {
   "project": "unity.echlub.json",
-  "mix": "unity-v2-master-48k24.wav",
-  "stems": "stems",
+  "mix": "unity-v5-master-48k24.wav",
   "tail_s": 5.0,
-  "wav_bits": 24,
-  "normalize": false
+  "normalize": false,
+  "wav_bits": 24
+ },
+ "master_automation": {
+  "gain": [
+   {
+    "bar": 0,
+    "beat": 0,
+    "value": 0.0
+   },
+   {
+    "bar": 36,
+    "beat": 0,
+    "value": 0.0
+   },
+   {
+    "bar": 36,
+    "beat": 1,
+    "value": -1.6
+   },
+   {
+    "bar": 43,
+    "beat": 3,
+    "value": -1.6
+   },
+   {
+    "bar": 44,
+    "beat": 0,
+    "value": 0.0
+   },
+   {
+    "bar": 68,
+    "beat": 0,
+    "value": 0.0
+   },
+   {
+    "bar": 68,
+    "beat": 2,
+    "value": -2.5
+   }
+  ]
  }
 }
