@@ -1,0 +1,9 @@
+[package]
+name = "echlub-rt-testkit"
+description = "Real-time audio test kit: a counting allocator with its positive control, the click metric, bit-identity comparison and block-slicing helpers"
+version.workspace = true
+edition.workspace = true
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]

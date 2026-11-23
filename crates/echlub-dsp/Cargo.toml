@@ -1,0 +1,13 @@
+[package]
+name = "echlub-dsp"
+description = "Signal-processing building blocks for the EchLub engine: allocation-free per block, platform-neutral"
+version.workspace = true
+edition.workspace = true
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# Portable math: pinned to an exact version so every build computes the same bits.
+libm = "=0.2.16"
+
+[dev-dependencies]
+echlub-rt-testkit = { workspace = true }

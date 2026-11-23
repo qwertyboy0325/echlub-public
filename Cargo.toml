@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/echlub-rt-testkit",
+    "crates/echlub-rt-thread",
+    "crates/echlub-audiofile",
+    "crates/echlub-node",
+    "crates/echlub-dsp",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+echlub-rt-testkit = { path = "crates/echlub-rt-testkit" }
+echlub-rt-thread = { path = "crates/echlub-rt-thread" }
+echlub-audiofile = { path = "crates/echlub-audiofile" }
+echlub-node = { path = "crates/echlub-node" }
+echlub-dsp = { path = "crates/echlub-dsp" }

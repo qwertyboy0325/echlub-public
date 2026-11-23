@@ -1,0 +1,22 @@
+# Untested: this workflow has not been run yet. It is written to build and test
+# the subset on Linux only. The macOS-specific code in echlub-rt-thread is not
+# exercised by it (only its stubs are), so a green run is not a statement about
+# macOS behaviour. If GitHub Actions does not run for account or billing
+# reasons, that is not a CI pass.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # rust-toolchain.toml pins the toolchain; rustup installs it on first use.
+      - name: Build
+        run: cargo build --locked --all-targets
+      - name: Test (release: several tests are slow in debug builds)
+        run: cargo test --release --locked
