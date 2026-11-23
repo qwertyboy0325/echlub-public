@@ -31,6 +31,7 @@
     background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; opacity: 0;
     transition: opacity .2s; pointer-events: none; }
   #toast[data-show="1"] { opacity: 1; }
+  #toast[data-show="1"][data-link="1"] { pointer-events: auto; }
   #gate { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(0 0 0 / .55); z-index: 5; }
   #gate[hidden] { display: none; }
   #gate .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px; display: flex;
@@ -50,7 +51,7 @@
   <span id="audio" class="muted">Sound off: the engine runs on the page's clock, silently.</span>
   <select id="pick" aria-label="Song"></select>
   <span class="grow muted"><span id="song"></span> <a id="credits" href="#" target="_blank" rel="noopener" hidden>Credits</a> <a id="licences" href="CREDITS.txt" target="_blank" rel="noopener">Licences</a></span>
-  <span class="muted">Browser demo: no files, plugins, recording or devices.</span>
+  <span class="muted">Browser demo: no plugins, recording or devices. Files: export only (WAV, FLAC).</span>
 </div>
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
   <div class="card">

@@ -18,6 +18,41 @@ export class WebHandle {
         return ret >>> 0;
     }
     /**
+     * The oldest finished export's bytes, as a view of the module's own
+     * memory (no copy: a mix is tens of megabytes). It is valid until the
+     * module next allocates, so the page makes its Blob from it at once.
+     * @returns {Uint8Array}
+     */
+    download_bytes() {
+        const ret = wasm.webhandle_download_bytes(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * The oldest finished export is downloaded: free its bytes.
+     */
+    download_done() {
+        wasm.webhandle_download_done(this.__wbg_ptr);
+    }
+    /**
+     * The name of the oldest finished export the page has not downloaded
+     * yet (empty when there is none): the page reads it with
+     * [`WebHandle::download_bytes`], downloads it, and calls
+     * [`WebHandle::download_done`].
+     * @returns {string}
+     */
+    download_name() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.webhandle_download_name(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
      * @returns {boolean}
      */
     has_panicked() {
@@ -1015,7 +1050,7 @@ function __wbg_get_imports() {
                     const a = state0.a;
                     state0.a = 0;
                     try {
-                        return wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_17(a, state0.b, arg0, arg1);
+                        return wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(a, state0.b, arg0, arg1);
                     } finally {
                         state0.a = a;
                     }
@@ -1028,6 +1063,10 @@ function __wbg_get_imports() {
         },
         __wbg_new_with_length_e1d8c8061ed4e317: function(arg0) {
             const ret = new Float32Array(arg0 >>> 0);
+            return ret;
+        },
+        __wbg_new_with_length_e6785c33c8e4cce8: function(arg0) {
+            const ret = new Uint8Array(arg0 >>> 0);
             return ret;
         },
         __wbg_new_with_record_from_str_to_blob_promise_6112280bc8a0f052: function() { return handleError(function (arg0) {
@@ -1524,8 +1563,8 @@ function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea(arg0, arg
     wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea(arg0, arg1, arg2, arg3);
 }
 
-function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_17(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_17(arg0, arg1, arg2, arg3);
+function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(arg0, arg1, arg2, arg3);
 }
 
 

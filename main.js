@@ -26,12 +26,20 @@ function fail(msg) {
   setReport("error", String(msg));
 }
 let toastTimer = 0;
-function toast(text) {
+// `link` ({url, name}): a saved file's link, offered in the toast for a while
+// (a browser may refuse a download that no click of the visitor started).
+function toast(text, link) {
   const t = $("toast");
   t.textContent = text;
+  t.dataset.link = link ? "1" : "0";
+  if (link) {
+    const a = document.createElement("a");
+    a.href = link.url; a.download = link.name; a.textContent = "Save it again";
+    t.append(" ", a);
+  }
   t.dataset.show = "1";
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.dataset.show = "0"; }, 4000);
+  toastTimer = setTimeout(() => { t.dataset.show = "0"; }, link ? 30000 : 4000);
 }
 
 const bytes = async (url, optional = false) => {
@@ -67,6 +75,31 @@ function tick() {
   p.rendered += blocks * p.block;
   p.sent += blocks * p.block;
   if (p.mode === "audio") p.node.port.postMessage({ samples, flags, block: p.block }, [samples.buffer]);
+}
+
+// A finished export (the app's File menu, WAV or FLAC) is a file in the
+// module's memory: make a Blob of it straight from there, free the module's
+// copy, and let the browser save the Blob. The object URL goes later, when
+// the browser has surely started the save.
+const saved = { count: 0, last: "", bytes: 0 };
+function saveDownloads() {
+  for (let n = 0; n < 8; n++) {
+    const name = pump.handle.download_name();
+    if (!name) return;
+    const view = pump.handle.download_bytes();
+    const blob = new Blob([view], { type: name.endsWith(".flac") ? "audio/flac" : "audio/wav" });
+    pump.handle.download_done();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = name; a.hidden = true;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 120000);
+    saved.count++; saved.last = name; saved.bytes = blob.size;
+    setReport("downloads", { ...saved });
+    toast(`Saved ${name} (${(blob.size / 1048576).toFixed(1)} MB) to your downloads.`, { url, name });
+  }
 }
 
 function showAudio() {
@@ -145,7 +178,8 @@ async function main() {
   let asks = 0;
   setInterval(() => {
     const n = Number(handle.unavailable_asks());
-    if (n > asks) toast("Opening, saving and exporting files are not available in the browser demo.");
+    if (n > asks) toast("Opening, saving and importing files, and exporting stems or MIDI, are not available in the browser demo. The mix exports as WAV or FLAC from the File menu.");
+    saveDownloads();
     asks = n;
     let dead = true;
     try { dead = handle.has_panicked(); } catch (_) { /* the wasm instance aborted */ }
