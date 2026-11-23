@@ -44,6 +44,8 @@ const pump = {
   handle: null, block: 128, sent: 0, consumed: 0, mode: "clock", t0: 0,
   ctx: null, node: null, player: { underruns: 0, missing: 0, queued: 0, hash: null, hashFrames: 0, nonzero: 0 },
   rendered: 0, renderMs: 0, maxTickMs: 0,
+  // Loudest sample of the blocks rendered since the page (or a check) last reset it, heard or not: what an audition test reads.
+  peak: 0,
 };
 
 function tick() {
@@ -59,6 +61,9 @@ function tick() {
   const flags = p.handle.pump_flags();
   const ms = performance.now() - t;
   p.renderMs += ms; p.maxTickMs = Math.max(p.maxTickMs, ms);
+  let pk = p.peak;
+  for (let i = 0; i < samples.length; i++) { const v = Math.abs(samples[i]); if (v > pk) pk = v; }
+  p.peak = pk;
   p.rendered += blocks * p.block;
   p.sent += blocks * p.block;
   if (p.mode === "audio") p.node.port.postMessage({ samples, flags, block: p.block }, [samples.buffer]);
