@@ -11,6 +11,7 @@
 
 pub mod fft;
 pub mod math;
+pub mod tilt;
 
 /// Decibels to a linear gain; at or below -120 dB it is silence.
 pub fn db_to_gain(db: f32) -> f32 {

@@ -562,66 +562,107 @@ fn frame(index: u64, channels: &[Vec<i32>], bits: u32, rate: u32) -> Vec<u8> {
 /// Interleaved integer samples (`channels` 1 or 2, `bits` 16 or 24, each
 /// sample within the bit depth's signed range) as a FLAC file.
 pub fn encode(samples: &[i32], channels: u16, bits: u8, sample_rate: u32) -> Result<Encoded, FlacError> {
-    if !(1..=2).contains(&channels) {
-        return Err(FlacError::Channels(channels));
-    }
-    if bits != 16 && bits != 24 {
-        return Err(FlacError::BitDepth(bits));
-    }
-    if sample_rate == 0 || sample_rate > 655_350 {
-        return Err(FlacError::SampleRate(sample_rate));
-    }
-    let ch = channels as usize;
-    if !samples.len().is_multiple_of(ch) {
-        return Err(FlacError::Ragged);
-    }
-    let (lo, hi) = (-(1i32 << (bits - 1)), (1i32 << (bits - 1)) - 1);
-    if samples.iter().any(|&s| s < lo || s > hi) {
-        return Err(FlacError::OutOfRange);
-    }
-    let frames = samples.len() / ch;
-    // STREAMINFO always says 4096 (a shorter stream is one short last frame: the
-    // system's own decoder, afconvert, refuses a file whose STREAMINFO says less).
-    let block = BLOCK_SIZE;
-    let mut md5 = Md5::new();
-    let bytes_per = bits as usize / 8;
-    let mut body = Vec::new();
-    let (mut min_frame, mut max_frame) = (usize::MAX, 0usize);
-    let mut start = 0;
-    let mut index = 0u64;
-    while start < frames {
-        let n = (frames - start).min(block);
-        let part = &samples[start * ch..(start + n) * ch];
-        let mut raw = Vec::with_capacity(part.len() * bytes_per);
-        for &s in part {
-            raw.extend_from_slice(&s.to_le_bytes()[..bytes_per]);
+    let mut e = Stepper::new(samples, channels, bits, sample_rate)?;
+    e.step(usize::MAX);
+    Ok(e.finish())
+}
+
+/// [`encode`] as a value advanced a few blocks at a time (a caller with no
+/// thread spreads a long file over frames); [`encode`] is this run to the
+/// end, so the bytes are the same. `S` is the samples: a slice, or a `Vec`
+/// the stepper owns.
+pub struct Stepper<S: AsRef<[i32]>> {
+    samples: S,
+    ch: usize,
+    bits: u8,
+    rate: u32,
+    frames: usize,
+    md5: Md5,
+    body: Vec<u8>,
+    min_frame: usize,
+    max_frame: usize,
+    start: usize,
+    index: u64,
+}
+
+impl<S: AsRef<[i32]>> Stepper<S> {
+    pub fn new(samples: S, channels: u16, bits: u8, sample_rate: u32) -> Result<Self, FlacError> {
+        if !(1..=2).contains(&channels) {
+            return Err(FlacError::Channels(channels));
         }
-        md5.update(&raw);
-        let planes: Vec<Vec<i32>> = (0..ch).map(|c| part.iter().skip(c).step_by(ch).copied().collect()).collect();
-        let f = frame(index, &planes, bits as u32, sample_rate);
-        min_frame = min_frame.min(f.len());
-        max_frame = max_frame.max(f.len());
-        body.extend(f);
-        start += n;
-        index += 1;
+        if bits != 16 && bits != 24 {
+            return Err(FlacError::BitDepth(bits));
+        }
+        if sample_rate == 0 || sample_rate > 655_350 {
+            return Err(FlacError::SampleRate(sample_rate));
+        }
+        let ch = channels as usize;
+        let all = samples.as_ref();
+        if !all.len().is_multiple_of(ch) {
+            return Err(FlacError::Ragged);
+        }
+        let (lo, hi) = (-(1i32 << (bits - 1)), (1i32 << (bits - 1)) - 1);
+        if all.iter().any(|&s| s < lo || s > hi) {
+            return Err(FlacError::OutOfRange);
+        }
+        let frames = all.len() / ch;
+        Ok(Stepper { samples, ch, bits, rate: sample_rate, frames, md5: Md5::new(), body: Vec::new(), min_frame: usize::MAX, max_frame: 0, start: 0, index: 0 })
     }
-    if index == 0 {
-        min_frame = 0;
+
+    /// Encode up to `blocks` more blocks of [`BLOCK_SIZE`] frames; true
+    /// when there are none left.
+    pub fn step(&mut self, blocks: usize) -> bool {
+        let (ch, bytes_per) = (self.ch, self.bits as usize / 8);
+        let mut left = blocks;
+        while self.start < self.frames && left > 0 {
+            left -= 1;
+            let n = (self.frames - self.start).min(BLOCK_SIZE);
+            let part = &self.samples.as_ref()[self.start * ch..(self.start + n) * ch];
+            let mut raw = Vec::with_capacity(part.len() * bytes_per);
+            for &s in part {
+                raw.extend_from_slice(&s.to_le_bytes()[..bytes_per]);
+            }
+            self.md5.update(&raw);
+            let planes: Vec<Vec<i32>> = (0..ch).map(|c| part.iter().skip(c).step_by(ch).copied().collect()).collect();
+            let f = frame(self.index, &planes, self.bits as u32, self.rate);
+            self.min_frame = self.min_frame.min(f.len());
+            self.max_frame = self.max_frame.max(f.len());
+            self.body.extend(f);
+            self.start += n;
+            self.index += 1;
+        }
+        self.start >= self.frames
     }
-    let digest = md5.finish();
-    let mut out = Vec::with_capacity(42 + body.len());
-    out.extend_from_slice(b"fLaC");
-    out.extend_from_slice(&[0x80, 0, 0, 34]);
-    out.extend_from_slice(&(block as u16).to_be_bytes());
-    out.extend_from_slice(&(block as u16).to_be_bytes());
-    out.extend_from_slice(&(min_frame as u32).to_be_bytes()[1..]);
-    out.extend_from_slice(&(max_frame as u32).to_be_bytes()[1..]);
-    // 20 bits rate, 3 bits channels - 1, 5 bits depth - 1, 36 bits total samples.
-    let packed: u64 = (sample_rate as u64) << 44 | (ch as u64 - 1) << 41 | (bits as u64 - 1) << 36 | frames as u64;
-    out.extend_from_slice(&packed.to_be_bytes());
-    out.extend_from_slice(&digest);
-    out.extend(body);
-    Ok(Encoded { bytes: out, md5: digest })
+
+    /// Frames encoded of frames in all.
+    pub fn progress(&self) -> (usize, usize) {
+        (self.start, self.frames)
+    }
+
+    /// The file, once [`Stepper::step`] has said it is done.
+    pub fn finish(self) -> Encoded {
+        let Stepper { ch, bits, rate, frames, md5, body, mut min_frame, max_frame, index, .. } = self;
+        if index == 0 {
+            min_frame = 0;
+        }
+        let digest = md5.finish();
+        // STREAMINFO always says 4096 (a shorter stream is one short last frame: the
+        // system's own decoder, afconvert, refuses a file whose STREAMINFO says less).
+        let block = BLOCK_SIZE;
+        let mut out = Vec::with_capacity(42 + body.len());
+        out.extend_from_slice(b"fLaC");
+        out.extend_from_slice(&[0x80, 0, 0, 34]);
+        out.extend_from_slice(&(block as u16).to_be_bytes());
+        out.extend_from_slice(&(block as u16).to_be_bytes());
+        out.extend_from_slice(&(min_frame as u32).to_be_bytes()[1..]);
+        out.extend_from_slice(&(max_frame as u32).to_be_bytes()[1..]);
+        // 20 bits rate, 3 bits channels - 1, 5 bits depth - 1, 36 bits total samples.
+        let packed: u64 = (rate as u64) << 44 | (ch as u64 - 1) << 41 | (bits as u64 - 1) << 36 | frames as u64;
+        out.extend_from_slice(&packed.to_be_bytes());
+        out.extend_from_slice(&digest);
+        out.extend(body);
+        Encoded { bytes: out, md5: digest }
+    }
 }
 
 #[cfg(test)]

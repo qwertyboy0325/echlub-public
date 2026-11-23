@@ -637,3 +637,26 @@ fn demo_mix_ratio_and_round_trip() {
         }
     }
 }
+
+/// The stepped encoder, run a few blocks at a time (borrowing the samples or
+/// owning them), gives the bytes `encode` gives.
+#[test]
+fn the_stepped_encoder_is_encode_run_in_pieces() {
+    let samples: Vec<i32> = (0..4096 * 2 * 5 + 2 * 777).map(|i| (((i as f64) * 0.01).sin() * 20_000.0) as i32 + (i % 7)).collect();
+    for bits in [16u8, 24] {
+        let whole = encode(&samples, 2, bits, 48_000).unwrap();
+        for blocks in [1usize, 2, 3] {
+            let mut e = Stepper::new(samples.clone(), 2, bits, 48_000).unwrap();
+            let mut calls = 0;
+            while !e.step(blocks) {
+                calls += 1;
+                assert!(e.progress().0 <= e.progress().1);
+            }
+            assert!(calls >= 1, "it took more than one call");
+            let got = e.finish();
+            assert!(got.bytes == whole.bytes && got.md5 == whole.md5, "{bits} bit, {blocks} blocks a step");
+        }
+    }
+    let empty = Stepper::new(&[][..], 2, 16, 48_000).unwrap();
+    assert!(empty.finish().bytes == encode(&[], 2, 16, 48_000).unwrap().bytes);
+}
