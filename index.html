@@ -24,6 +24,11 @@
   #shell a { color: var(--accent); }
   #shell select { font: inherit; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 1px 4px; }
   #shell .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  /* A phone's narrow bar: the button and the song menu keep their size, the
+     sound line shortens with an ellipsis, the demo note goes. */
+  #shell > button, #shell > select { flex-shrink: 0; }
+  #audio { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 700px) { #shell .note { display: none; } }
   #loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
   body:not([data-state="loading"]) #loading { display: none; }
   body[data-state="error"] #loading { display: flex; color: var(--bad); }
@@ -51,7 +56,7 @@
   <span id="audio" class="muted">Sound off: the engine runs on the page's clock, silently.</span>
   <select id="pick" aria-label="Song"></select>
   <span class="grow muted"><span id="song"></span> <a id="credits" href="#" target="_blank" rel="noopener" hidden>Credits</a> <a id="licences" href="CREDITS.txt" target="_blank" rel="noopener">Licences</a></span>
-  <span class="muted">Browser demo: no plugins, recording or devices. Files: export only (WAV, FLAC).</span>
+  <span class="muted note">Browser demo: no plugins, recording or devices. Files: export only (WAV, FLAC).</span>
 </div>
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
   <div class="card">
