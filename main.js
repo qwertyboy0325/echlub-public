@@ -14,7 +14,10 @@ const RATE = 48000;
 let SONG = "";
 // Frames rendered ahead of what the player has played: what the queue
 // rides out when the main thread stalls (an egui frame, a GC).
-const AHEAD = Math.round(Number(params.get("ahead") || 0.25) * RATE);
+// A phone or tablet (a touch screen as the main pointer) gets a full second:
+// its slower CPU stalls longer, and nobody plays it live from a keyboard there.
+const TOUCH = typeof matchMedia === "function" && matchMedia("(pointer: coarse)").matches;
+const AHEAD = Math.round(Number(params.get("ahead") || (TOUCH ? 1 : 0.25)) * RATE);
 // Frames of playing blocks the player hashes (the check against the native reference).
 const HASH_FRAMES = Math.round(Number(params.get("hash_s") || 10) * RATE);
 
@@ -102,6 +105,7 @@ function saveDownloads() {
   }
 }
 
+const slow = { consumed: 0, missing: 0, told: false };
 function showAudio() {
   const p = pump, q = p.player;
   if (p.mode === "clock") return;
@@ -109,6 +113,20 @@ function showAudio() {
   const out = p.ctx.outputLatency ? `, output latency reported ${(p.ctx.outputLatency * 1000).toFixed(0)} ms` : "";
   $("audio").textContent = `Sound on. Queue ${(q.queued / RATE * 1000).toFixed(0)} ms (target ${(AHEAD / RATE * 1000).toFixed(0)} ms), ` +
     `underruns ${q.underruns}; engine ${speed.toFixed(1)}× real time${out} (measured on this machine)`;
+  // This device cannot render the song as fast as it plays: the sound cuts
+  // out. Say so once (over a few seconds of playing, more than 5% missing).
+  const w = slow;
+  if (q.consumed < w.consumed) { w.consumed = 0; w.missing = 0; } // sound restarted: the player's counts reset
+  if (q.consumed > w.consumed + RATE * 4) {
+    const missed = q.missing - w.missing, played = q.consumed - w.consumed;
+    if (!w.told && missed > 0.05 * (missed + played)) {
+      w.told = true;
+      setReport("tooSlow", true);
+      toast(`This device cannot keep up with this song (${Math.round(100 * missed / (missed + played))}% of the sound is missing). ` +
+        "Try the Built-in trio song from the song menu, or open the demo on a computer.");
+    }
+    w.consumed = q.consumed; w.missing = q.missing;
+  }
   const ref = pump.reference;
   if (q.hashDone && ref) {
     const same = q.hash === ref.hash && q.hashFrames === ref.frames;
