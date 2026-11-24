@@ -129,15 +129,23 @@ async function startSound() {
     $("audio").textContent = "Sound off: the engine runs on the page's clock, silently.";
     return;
   }
+  // Phones (iOS Safari above all) let sound start only inside the tap
+  // itself: resume the context before the first await, while the tap still
+  // counts, and ask for the playback audio session, which the ring/silent
+  // switch does not mute (Safari 17+; elsewhere the property is absent).
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (_) { /* not offered */ }
   if (!p.ctx) {
     p.ctx = new AudioContext({ sampleRate: RATE, latencyHint: "interactive" });
+    const resumed = p.ctx.resume();
     await p.ctx.audioWorklet.addModule("player.js");
+    await resumed;
     p.node = new AudioWorkletNode(p.ctx, "echlub-player", { numberOfInputs: 0, outputChannelCount: [2], processorOptions: { hashFrames: HASH_FRAMES } });
     p.node.port.onmessage = (e) => { Object.assign(p.player, e.data); p.consumed = e.data.consumed; };
   }
   p.node.port.postMessage({ reset: true });
   p.node.connect(p.ctx.destination);
   await p.ctx.resume();
+  if (p.ctx.state !== "running") toast("The browser kept the sound off. Tap Start sound again; on an iPhone, also check the silent switch.");
   // The queue starts empty: what the clock mode rendered was never heard.
   p.sent = 0; p.consumed = 0; p.mode = "audio";
   $("sound").textContent = "Stop sound"; $("sound").setAttribute("aria-pressed", "true");
