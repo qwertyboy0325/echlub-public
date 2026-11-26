@@ -31,7 +31,8 @@ function fail(msg) {
 let toastTimer = 0;
 // `link` ({url, name}): a saved file's link, offered in the toast for a while
 // (a browser may refuse a download that no click of the visitor started).
-function toast(text, link) {
+// `ms`: how long a plain toast stays (default 4 s).
+function toast(text, link, ms = 4000) {
   const t = $("toast");
   t.textContent = text;
   t.dataset.link = link ? "1" : "0";
@@ -42,7 +43,7 @@ function toast(text, link) {
   }
   t.dataset.show = "1";
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.dataset.show = "0"; }, link ? 30000 : 4000);
+  toastTimer = setTimeout(() => { t.dataset.show = "0"; }, link ? 30000 : ms);
 }
 
 const bytes = async (url, optional = false) => {
@@ -80,17 +81,100 @@ function tick() {
   if (p.mode === "audio") p.node.port.postMessage({ samples, flags, block: p.block }, [samples.buffer]);
 }
 
-// A finished export (the app's File menu, WAV or FLAC) is a file in the
-// module's memory: make a Blob of it straight from there, free the module's
-// copy, and let the browser save the Blob. The object URL goes later, when
-// the browser has surely started the save.
+// Copies of unsaved work, kept in the browser's own storage (IndexedDB: a
+// project's file is megabytes of text, past what localStorage keeps, and
+// its calls are asynchronous). The app queues a copy on its autosave rhythm
+// and when a document is saved or replaced it asks for the copy to go; this
+// puts them in a store of one database, one record per visit, and gives the
+// earlier visits' records back at start-up for the recovery question. Where
+// the storage is not there (a private window, blocked site data) or full,
+// the page runs as before and says once that work will not be kept.
+const DB = "echlub-web-demo", STORE = "copies";
+const storage = {
+  db: null, ok: false, told: false, toasts: 0, error: "", puts: 0, deletes: 0, offered: 0, lastBytes: 0, busy: false,
+  key: `visit-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+  say(why) {
+    this.ok = false; this.error = String(why);
+    $("keep").textContent = "Unsaved work is NOT kept across reloads."; $("keep").style.color = "var(--bad)";
+    if (this.told) return;
+    this.told = true; this.toasts++;
+    toast(`This browser is not letting the page keep your work (${why}), so it will be lost if the page is reloaded or closed. Use File → Save to keep the project.`, null, 14000);
+  },
+  req(r) { return new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error || new Error("storage request failed")); }); },
+  // Opens the database and returns the earlier visits' copies as [[key, text]].
+  async open() {
+    try {
+      if (typeof indexedDB === "undefined" || !indexedDB) throw new Error("no IndexedDB");
+      const open = indexedDB.open(DB, 1);
+      open.onupgradeneeded = () => { open.result.createObjectStore(STORE); };
+      this.db = await new Promise((res, rej) => {
+        open.onsuccess = () => res(open.result);
+        open.onerror = () => rej(open.error || new Error("cannot open"));
+        open.onblocked = () => rej(new Error("blocked"));
+      });
+      const tx = this.db.transaction(STORE, "readonly");
+      const os = tx.objectStore(STORE);
+      const [keys, vals] = await Promise.all([this.req(os.getAllKeys()), this.req(os.getAll())]);
+      this.ok = true;
+      const dec = new TextDecoder();
+      const copies = [];
+      keys.forEach((k, i) => { try { copies.push([String(k), dec.decode(vals[i])]); } catch (_) { /* unreadable: the app drops it */ } });
+      this.offered = copies.length;
+      return copies;
+    } catch (e) {
+      this.say(e && e.message ? e.message : e);
+      return [];
+    } finally {
+      setReport("storage", this.state());
+    }
+  },
+  state() { return { ok: this.ok, error: this.error, toasts: this.toasts, key: this.key, puts: this.puts, deletes: this.deletes, offered: this.offered, lastBytes: this.lastBytes }; },
+  async apply(kind, key, bytes) {
+    if (!this.db || !this.ok) return;
+    try {
+      const tx = this.db.transaction(STORE, "readwrite");
+      const done = new Promise((res, rej) => { tx.oncomplete = res; tx.onabort = () => rej(tx.error || new Error("aborted")); tx.onerror = () => rej(tx.error || new Error("failed")); });
+      if (kind === "put") tx.objectStore(STORE).put(bytes, key); else tx.objectStore(STORE).delete(key);
+      await done;
+      if (kind === "put") { this.puts++; this.lastBytes = bytes.length; } else this.deletes++;
+    } catch (e) {
+      const full = e && (e.name === "QuotaExceededError" || /quota/i.test(String(e.message)));
+      this.say(full ? "its storage is full" : (e && e.message ? e.message : e));
+    }
+    setReport("storage", this.state());
+  },
+};
+// The session's queue of storage operations, in order, a few a turn.
+async function drainStore() {
+  if (storage.busy || !pump.handle) return;
+  storage.busy = true;
+  try {
+    for (let n = 0; n < 8; n++) {
+      const op = pump.handle.store_op();
+      if (!op) return;
+      const [kind, key] = op.split("\t");
+      // A copy of the view: the module's memory moves when it grows.
+      const bytes = kind === "put" ? pump.handle.store_bytes().slice() : null;
+      pump.handle.store_done();
+      await storage.apply(kind, key, bytes);
+    }
+  } finally { storage.busy = false; }
+}
+
+// A finished export or saved file (the app's File menu: WAV, FLAC, a
+// project, a MIDI file) is a file in the module's memory: make a Blob of
+// it straight from there, free the module's copy, and let the browser save
+// the Blob. The object URL goes later, when the browser has surely started
+// the save.
+const MIME = { flac: "audio/flac", wav: "audio/wav", json: "application/json", mid: "audio/midi" };
+const sizeText = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 const saved = { count: 0, last: "", bytes: 0 };
 function saveDownloads() {
   for (let n = 0; n < 8; n++) {
     const name = pump.handle.download_name();
     if (!name) return;
     const view = pump.handle.download_bytes();
-    const blob = new Blob([view], { type: name.endsWith(".flac") ? "audio/flac" : "audio/wav" });
+    const blob = new Blob([view], { type: MIME[name.split(".").pop().toLowerCase()] || "application/octet-stream" });
     pump.handle.download_done();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -101,8 +185,48 @@ function saveDownloads() {
     setTimeout(() => URL.revokeObjectURL(url), 120000);
     saved.count++; saved.last = name; saved.bytes = blob.size;
     setReport("downloads", { ...saved });
-    toast(`Saved ${name} (${(blob.size / 1048576).toFixed(1)} MB) to your downloads.`, { url, name });
+    toast(`Saved ${name} (${sizeText(blob.size)}) to your downloads.`, { url, name });
   }
+}
+
+// A file the app asks for (File → Open, Import MIDI): the app files a
+// request, this shows the browser's own file chooser once for it and hands
+// the chosen file's bytes to the app (or says the visitor backed out). A
+// chooser opens only for a recent click or tap on the page; if that has
+// gone by (the app answered slowly) a button in the shell asks for a fresh one.
+const picking = { id: 0, last: null };
+function checkPick() {
+  const raw = pump.handle && pump.handle.pick_request();
+  if (!raw) return;
+  const req = JSON.parse(raw);
+  if (req.id === picking.id) return;
+  picking.id = req.id;
+  const input = document.createElement("input");
+  input.type = "file"; input.accept = req.accept; input.hidden = true;
+  const bar = $("pickbar");
+  const close = () => { bar.hidden = true; input.remove(); };
+  input.addEventListener("change", async () => {
+    const f = input.files && input.files[0];
+    close();
+    if (!f) { pump.handle.pick_cancel(req.id); return; }
+    try {
+      const buf = new Uint8Array(await f.arrayBuffer());
+      const taken = pump.handle.pick_deliver(req.id, f.name, buf);
+      picking.last = { name: f.name, bytes: buf.length, taken };
+    } catch (e) {
+      pump.handle.pick_cancel(req.id);
+      toast(`Could not read ${f.name}: ${e && e.message ? e.message : e}`);
+    }
+    setReport("picked", picking.last);
+  });
+  input.addEventListener("cancel", () => { close(); pump.handle.pick_cancel(req.id); });
+  document.body.appendChild(input);
+  const fresh = !navigator.userActivation || navigator.userActivation.isActive;
+  if (fresh) { input.click(); return; }
+  $("pick-label").textContent = `Choose a file: ${req.label}`;
+  bar.hidden = false;
+  $("pick-go").onclick = () => { bar.hidden = true; input.click(); };
+  $("pick-no").onclick = () => { close(); pump.handle.pick_cancel(req.id); };
 }
 
 const slow = { consumed: 0, missing: 0, told: false };
@@ -195,17 +319,21 @@ async function main() {
   setReport("font", font.length);
   const handle = new WebHandle();
   pump.handle = handle; pump.block = handle.block();
-  window.echlubDemo = { handle, pump, report };
-  await handle.start($("app"), manifest, files, font);
+  window.echlubDemo = { handle, pump, report, storage };
+  // The earlier visits' copies of unsaved work, offered by the app's recovery question.
+  const copies = await storage.open();
+  await handle.start($("app"), manifest, files, font, storage.ok ? storage.key : "", copies.map((c) => c[0]), copies.map((c) => c[1]));
   document.body.dataset.state = "running";
   pump.t0 = performance.now();
   setInterval(tick, 10);
   setInterval(showAudio, 250);
   let asks = 0;
+  setInterval(checkPick, 100);
   setInterval(() => {
     const n = Number(handle.unavailable_asks());
-    if (n > asks) toast("Opening, saving and importing files, and exporting stems or MIDI, are not available in the browser demo. The mix exports as WAV or FLAC from the File menu.");
+    if (n > asks) toast("Importing audio, samples and wavetables, and exporting stems, are not available in the browser. Projects and MIDI files open and save from the File menu; the mix exports as WAV or FLAC.", null, 7000);
     saveDownloads();
+    drainStore().catch(() => {});
     asks = n;
     let dead = true;
     try { dead = handle.has_panicked(); } catch (_) { /* the wasm instance aborted */ }

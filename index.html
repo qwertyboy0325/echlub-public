@@ -37,6 +37,11 @@
     transition: opacity .2s; pointer-events: none; }
   #toast[data-show="1"] { opacity: 1; }
   #toast[data-show="1"][data-link="1"] { pointer-events: auto; }
+  #pickbar { position: absolute; left: 50%; bottom: 48px; transform: translateX(-50%); max-width: calc(100% - 32px); z-index: 4;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; display: flex; gap: 10px; align-items: center; }
+  #pickbar[hidden] { display: none; }
+  #pickbar button { font: inherit; padding: 2px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+  #pickbar #pick-no { background: transparent; color: var(--ink); }
   #gate { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgb(0 0 0 / .55); z-index: 5; }
   #gate[hidden] { display: none; }
   #gate .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px; display: flex;
@@ -56,7 +61,7 @@
   <span id="audio" class="muted">Sound off: the engine runs on the page's clock, silently.</span>
   <select id="pick" aria-label="Song"></select>
   <span class="grow muted"><span id="song"></span> <a id="credits" href="#" target="_blank" rel="noopener" hidden>Credits</a> <a id="licences" href="CREDITS.txt" target="_blank" rel="noopener">Licences</a></span>
-  <span class="muted note">Browser demo: no plugins, recording or devices. Files: export only (WAV, FLAC).</span>
+  <span class="muted note">Browser version: no plugins, recording or devices. Projects (.json) and MIDI open and save; exports WAV and FLAC. <span id="keep"></span></span>
 </div>
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
   <div class="card">
@@ -67,6 +72,11 @@
   </div>
 </div>
 <div id="toast" role="alert"></div>
+<div id="pickbar" role="dialog" aria-label="Choose a file" hidden>
+  <span id="pick-label">Choose a file</span>
+  <button id="pick-go" type="button">Choose…</button>
+  <button id="pick-no" type="button">Cancel</button>
+</div>
 <pre id="report" hidden></pre>
 <script type="module" src="main.js"></script>
 </body>

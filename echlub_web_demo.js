@@ -10,6 +10,14 @@ export class WebHandle {
         wasm.__wbg_webhandle_free(ptr, 0);
     }
     /**
+     * A check of the open project for the page's tests: after the next
+     * frame, `size:hash` of the project file as the desktop would write
+     * it. Ask with this, wait a moment, read with [`WebHandle::project_digest`].
+     */
+    ask_digest() {
+        wasm.webhandle_ask_digest(this.__wbg_ptr);
+    }
+    /**
      * Frames per block [`WebHandle::pump`] renders.
      * @returns {number}
      */
@@ -66,6 +74,65 @@ export class WebHandle {
         return this;
     }
     /**
+     * The visitor backed out of request `id`.
+     * @param {number} id
+     * @returns {boolean}
+     */
+    pick_cancel(id) {
+        const ret = wasm.webhandle_pick_cancel(this.__wbg_ptr, id);
+        return ret !== 0;
+    }
+    /**
+     * The visitor picked `name` (its bytes): the answer to request `id`.
+     * The app reads it on a coming frame. False if `id` is not the open request.
+     * @param {number} id
+     * @param {string} name
+     * @param {Uint8Array} bytes
+     * @returns {boolean}
+     */
+    pick_deliver(id, name, bytes) {
+        const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passArray8ToWasm0(bytes, wasm.__wbindgen_malloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ret = wasm.webhandle_pick_deliver(this.__wbg_ptr, id, ptr0, len0, ptr1, len1);
+        return ret !== 0;
+    }
+    /**
+     * The file chooser the app is waiting for, as JSON
+     * (`{"id":…,"accept":".json","label":"…"}`), or empty when none. The
+     * page shows its chooser once per `id` and answers with
+     * [`WebHandle::pick_deliver`] or [`WebHandle::pick_cancel`].
+     * @returns {string}
+     */
+    pick_request() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.webhandle_pick_request(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * @returns {string}
+     */
+    project_digest() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.webhandle_project_digest(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
      * Run the engine `blocks` blocks: their interleaved stereo output.
      * [`WebHandle::pump_flags`] then has a byte per block: 1 if the
      * transport played in it.
@@ -106,20 +173,33 @@ export class WebHandle {
      * Open the song and start the app on `canvas`. `files` are the
      * manifest's files' bytes in [`WebHandle::song_files`]'s order; `font`
      * a CJK font file's bytes (empty: egui's own fonts only).
+     * `backup_key` names this visit's copy of unsaved work in the page's
+     * storage (empty: the page has no storage, nothing is kept) and
+     * `copy_keys`/`copies` are the copies earlier visits left there, which
+     * the start-up recovery question offers.
      * @param {HTMLCanvasElement} canvas
      * @param {string} manifest
      * @param {Uint8Array[]} files
      * @param {Uint8Array} font
+     * @param {string} backup_key
+     * @param {string[]} copy_keys
+     * @param {string[]} copies
      * @returns {Promise<void>}
      */
-    start(canvas, manifest, files, font) {
+    start(canvas, manifest, files, font, backup_key, copy_keys, copies) {
         const ptr0 = passStringToWasm0(manifest, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ptr1 = passArrayJsValueToWasm0(files, wasm.__wbindgen_malloc);
         const len1 = WASM_VECTOR_LEN;
         const ptr2 = passArray8ToWasm0(font, wasm.__wbindgen_malloc);
         const len2 = WASM_VECTOR_LEN;
-        const ret = wasm.webhandle_start(this.__wbg_ptr, canvas, ptr0, len0, ptr1, len1, ptr2, len2);
+        const ptr3 = passStringToWasm0(backup_key, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len3 = WASM_VECTOR_LEN;
+        const ptr4 = passArrayJsValueToWasm0(copy_keys, wasm.__wbindgen_malloc);
+        const len4 = WASM_VECTOR_LEN;
+        const ptr5 = passArrayJsValueToWasm0(copies, wasm.__wbindgen_malloc);
+        const len5 = WASM_VECTOR_LEN;
+        const ret = wasm.webhandle_start(this.__wbg_ptr, canvas, ptr0, len0, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4, ptr5, len5);
         return ret;
     }
     /**
@@ -131,6 +211,42 @@ export class WebHandle {
         let deferred1_1;
         try {
             const ret = wasm.webhandle_status(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
+    }
+    /**
+     * The bytes of the `put` [`WebHandle::store_op`] shows, as a view of
+     * the module's memory (valid until the module next allocates: make a
+     * copy at once).
+     * @returns {Uint8Array}
+     */
+    store_bytes() {
+        const ret = wasm.webhandle_store_bytes(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * The operation [`WebHandle::store_op`] shows is done (or given up).
+     * `ok` false puts nothing back: the session writes a newer copy anyway.
+     */
+    store_done() {
+        wasm.webhandle_store_done(this.__wbg_ptr);
+    }
+    /**
+     * The oldest thing the session asks of the page's storage, as
+     * `put\t<key>` or `delete\t<key>` (empty: nothing). A `put`'s bytes
+     * are [`WebHandle::store_bytes`]; either is finished with
+     * [`WebHandle::store_done`].
+     * @returns {string}
+     */
+    store_op() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.webhandle_store_op(this.__wbg_ptr);
             deferred1_0 = ret[0];
             deferred1_1 = ret[1];
             return getStringFromWasm0(ret[0], ret[1]);
@@ -155,7 +271,9 @@ export class WebHandle {
         }
     }
     /**
-     * File dialogs asked for so far (none exist in the browser).
+     * File dialogs asked for that the browser cannot answer (audio,
+     * samples and the like; opening and saving projects and MIDI files
+     * are answered).
      * @returns {bigint}
      */
     unavailable_asks() {
@@ -1050,7 +1168,7 @@ function __wbg_get_imports() {
                     const a = state0.a;
                     state0.a = 0;
                     try {
-                        return wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(a, state0.b, arg0, arg1);
+                        return wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_28(a, state0.b, arg0, arg1);
                     } finally {
                         state0.a = a;
                     }
@@ -1444,32 +1562,32 @@ function __wbg_get_imports() {
             return ret;
         },
         __wbindgen_cast_0000000000000001: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [Externref], shim_idx: 1360, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [Externref], shim_idx: 1366, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__h601e6f7cad1fa7ac);
             return ret;
         },
         __wbindgen_cast_0000000000000002: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [Externref], shim_idx: 1423, ret: Result(Unit), inner_ret: Some(Result(Unit)) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [Externref], shim_idx: 1429, ret: Result(Unit), inner_ret: Some(Result(Unit)) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__hd98812a1961bb0c3);
             return ret;
         },
         __wbindgen_cast_0000000000000003: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Array<any>")], shim_idx: 332, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Array<any>")], shim_idx: 335, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__h14104fc61ecdb210);
             return ret;
         },
         __wbindgen_cast_0000000000000004: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Event")], shim_idx: 332, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Event")], shim_idx: 335, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__h14104fc61ecdb210_3);
             return ret;
         },
         __wbindgen_cast_0000000000000005: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("MIDIMessageEvent")], shim_idx: 749, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("MIDIMessageEvent")], shim_idx: 752, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__he89aa43df829a173);
             return ret;
         },
         __wbindgen_cast_0000000000000006: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [], shim_idx: 330, ret: Result(Unit), inner_ret: Some(Result(Unit)) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [], shim_idx: 333, ret: Result(Unit), inner_ret: Some(Result(Unit)) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm_bindgen__convert__closures_____invoke__h655ad8254c344586);
             return ret;
         },
@@ -1563,8 +1681,8 @@ function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea(arg0, arg
     wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea(arg0, arg1, arg2, arg3);
 }
 
-function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_20(arg0, arg1, arg2, arg3);
+function wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_28(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures_____invoke__h0d551dff632032ea_28(arg0, arg1, arg2, arg3);
 }
 
 
