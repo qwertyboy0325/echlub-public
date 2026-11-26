@@ -42,6 +42,15 @@ repository, so most tests and measurements that the evidence document cites cann
 here; the document marks the paths it cites. Treat its figures as the author's measurements on
 the author's machines, not as something this repository reproduces. No latency claim is made.
 
+## Try it in a browser
+
+The application these crates come from also runs as a WebAssembly build. The link is in this
+repository's About box (the website field at the top right of the GitHub page).
+
+It opens with a demo song. You can play it, change sounds and effects, write notes, and save
+or open projects in the page. It has been checked in desktop Chrome; Safari and phones have not
+been verified. The source of that build is not in this repository.
+
 ## Build and test
 
 The toolchain is pinned in `rust-toolchain.toml` (Rust 1.96.0; `rustup` installs it on first use).
@@ -64,7 +73,7 @@ Platform notes:
   platform-specific code and are intended to build for `wasm32-unknown-unknown`.
 - Development and the figures in the documents come from Apple silicon Macs and one x86-64 Linux
   machine. Windows has not been tried.
-- `.github/workflows/ci.yml` builds and tests on Linux. It has not been run yet.
+- `.github/workflows/ci.yml` builds and tests on Linux.
 
 ## Notes
 
