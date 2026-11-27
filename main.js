@@ -234,9 +234,8 @@ function showAudio() {
   const p = pump, q = p.player;
   if (p.mode === "clock") return;
   const speed = p.renderMs > 0 ? (p.rendered / RATE) / (p.renderMs / 1000) : 0;
-  const out = p.ctx.outputLatency ? `, output latency reported ${(p.ctx.outputLatency * 1000).toFixed(0)} ms` : "";
   $("audio").textContent = `Sound on. Queue ${(q.queued / RATE * 1000).toFixed(0)} ms (target ${(AHEAD / RATE * 1000).toFixed(0)} ms), ` +
-    `underruns ${q.underruns}; engine ${speed.toFixed(1)}× real time${out} (measured on this machine)`;
+    `underruns ${q.underruns}; engine ${speed.toFixed(1)}× real time`;
   // This device cannot render the song as fast as it plays: the sound cuts
   // out. Say so once (over a few seconds of playing, more than 5% missing).
   const w = slow;
@@ -344,6 +343,11 @@ async function main() {
     setReport("panicked", dead);
     setReport("fileAsks", n);
   }, 300);
+  // A phone held upright: the strip that says landscape has more room (shown by the page's CSS in
+  // portrait on a narrow screen only); dismissed for this visit. The toasts sit above the bar however tall it is.
+  try { $("rotate").hidden = sessionStorage.getItem("echlub-rotate-hint") === "1"; } catch (_) { $("rotate").hidden = false; }
+  $("rotate-x").addEventListener("click", () => { $("rotate").hidden = true; try { sessionStorage.setItem("echlub-rotate-hint", "1"); } catch (_) { /* kept for this page only */ } });
+  if (typeof ResizeObserver === "function") new ResizeObserver(() => document.documentElement.style.setProperty("--shell-h", `${$("shell").offsetHeight}px`)).observe($("shell"));
   $("sound").addEventListener("click", () => startSound().catch((e) => toast(`Sound could not start: ${e.message}`)));
   // A browser plays sound only after a click on the page: ask once, up
   // front, instead of leaving it to the small button in the bar
