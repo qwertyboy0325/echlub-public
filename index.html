@@ -48,13 +48,16 @@
     #toast, #pickbar { bottom: calc(var(--shell-h, 32px) + 16px); }
   }
   @supports (height: 100dvh) { @media (max-width: 700px), (max-height: 500px) { html, body { height: 100dvh; } } }
-  /* A phone held sideways (wide but short): the bar is one row, the sound line beside the controls, smaller. */
+  /* A phone held sideways (wide but short): the whole bar is one row as tall as its controls: the button,
+     the song menu, the short sound line (a tap shows the full one) and the links. */
   @media (min-width: 701px) and (max-height: 500px) {
-    #shell { flex-wrap: nowrap; align-items: center; gap: 10px; padding: 3px 12px calc(3px + env(safe-area-inset-bottom, 0px)); }
-    #audio { order: 0; flex: 1 1 0; min-width: 0; font-size: 11px; line-height: 1.25; }
-    #shell button, #shell select { min-height: 32px; }
+    #shell { flex-wrap: nowrap; align-items: center; gap: 10px; height: 36px; padding: 0 12px; }
+    #audio { order: 0; flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; line-height: 1; }
+    #shell button, #shell select { min-height: 0; height: 32px; }
     #shell .grow { flex: 0 0 auto; white-space: nowrap; }
+    #song { display: none; }
   }
+  @media (max-width: 700px), (max-height: 500px) { #audio { cursor: pointer; } }
   /* In portrait on a phone: a thin strip above the bar, not over the app. */
   @media (max-width: 700px) and (orientation: portrait) {
     #rotate { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 0 4px 0 12px; min-height: 36px; background: var(--panel);

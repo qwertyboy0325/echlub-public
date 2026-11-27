@@ -229,13 +229,23 @@ function checkPick() {
   $("pick-no").onclick = () => { close(); pump.handle.pick_cancel(req.id); };
 }
 
+// A phone-sized page (the shell's narrow or short media query) shows the short form of the sound
+// line, one line in the bar; the full sentence is its title and a tap on it shows it as a toast.
+const PHONE_MQ = typeof matchMedia === "function" ? matchMedia("(max-width: 700px), (max-height: 500px)") : { matches: false };
+function sayAudio(full, short = full) {
+  const a = $("audio");
+  a.title = full; a.dataset.full = full;
+  a.textContent = PHONE_MQ.matches ? short : full;
+}
+
 const slow = { consumed: 0, missing: 0, told: false };
 function showAudio() {
   const p = pump, q = p.player;
   if (p.mode === "clock") return;
   const speed = p.renderMs > 0 ? (p.rendered / RATE) / (p.renderMs / 1000) : 0;
-  $("audio").textContent = `Sound on. Queue ${(q.queued / RATE * 1000).toFixed(0)} ms (target ${(AHEAD / RATE * 1000).toFixed(0)} ms), ` +
+  let full = `Sound on. Queue ${(q.queued / RATE * 1000).toFixed(0)} ms (target ${(AHEAD / RATE * 1000).toFixed(0)} ms), ` +
     `underruns ${q.underruns}; engine ${speed.toFixed(1)}× real time`;
+  const short = `Sound on · ${speed.toFixed(1)}× real time · underruns ${q.underruns}`;
   // This device cannot render the song as fast as it plays: the sound cuts
   // out. Say so once (over a few seconds of playing, more than 5% missing).
   const w = slow;
@@ -254,9 +264,10 @@ function showAudio() {
   if (q.hashDone && ref) {
     const same = q.hash === ref.hash && q.hashFrames === ref.frames;
     setReport("hashCheck", { page: q.hash, native: ref.hash, frames: q.hashFrames, same });
-    $("audio").textContent += same ? `. First ${(q.hashFrames / RATE).toFixed(0)} s played: bit-identical to the native reference.`
+    full += same ? `. First ${(q.hashFrames / RATE).toFixed(0)} s played: bit-identical to the native reference.`
       : `. First ${(q.hashFrames / RATE).toFixed(0)} s played: differs from the native reference (${q.hash} vs ${ref.hash}).`;
   }
+  sayAudio(full, short);
   setReport("audio", { ...q, sent: p.sent, consumed: p.consumed, speed, maxTickMs: p.maxTickMs, baseLatency: p.ctx.baseLatency, outputLatency: p.ctx.outputLatency, state: p.ctx.state });
 }
 
@@ -267,7 +278,7 @@ async function startSound() {
     p.node.disconnect();
     p.mode = "clock"; p.t0 = performance.now() - p.consumed * 1000 / RATE;
     $("sound").textContent = "Start sound"; $("sound").setAttribute("aria-pressed", "false");
-    $("audio").textContent = "Sound off: the engine runs on the page's clock, silently.";
+    sayAudio("Sound off: the engine runs on the page's clock, silently.", "Sound off");
     return;
   }
   // Phones (iOS Safari above all) let sound start only inside the tap
@@ -337,7 +348,7 @@ async function main() {
     let dead = true;
     try { dead = handle.has_panicked(); } catch (_) { /* the wasm instance aborted */ }
     if (dead && !report.panicked) {
-      $("audio").textContent = "The app stopped after an internal error. Reload the page to start again.";
+      sayAudio("The app stopped after an internal error. Reload the page to start again.");
       toast("The app stopped after an internal error. Reload the page to start again.");
     }
     setReport("panicked", dead);
@@ -348,6 +359,8 @@ async function main() {
   try { $("rotate").hidden = sessionStorage.getItem("echlub-rotate-hint") === "1"; } catch (_) { $("rotate").hidden = false; }
   $("rotate-x").addEventListener("click", () => { $("rotate").hidden = true; try { sessionStorage.setItem("echlub-rotate-hint", "1"); } catch (_) { /* kept for this page only */ } });
   if (typeof ResizeObserver === "function") new ResizeObserver(() => document.documentElement.style.setProperty("--shell-h", `${$("shell").offsetHeight}px`)).observe($("shell"));
+  sayAudio("Sound off: the engine runs on the page's clock, silently.", "Sound off");
+  $("audio").addEventListener("click", () => { if (PHONE_MQ.matches && $("audio").dataset.full) toast($("audio").dataset.full, null, 9000); });
   $("sound").addEventListener("click", () => startSound().catch((e) => toast(`Sound could not start: ${e.message}`)));
   // A browser plays sound only after a click on the page: ask once, up
   // front, instead of leaving it to the small button in the bar
